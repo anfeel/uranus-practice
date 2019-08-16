@@ -1,7 +1,3 @@
-/**
- * 深圳金融电子结算中心
- * Copyright (c) 1995-2019 All Rights Reserved.
- */
 package org.szfs.basic.web.demo.test.dataStruture;
 
 import java.util.Stack;
