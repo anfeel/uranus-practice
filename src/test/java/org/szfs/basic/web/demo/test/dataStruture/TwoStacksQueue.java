@@ -6,7 +6,10 @@ import org.junit.Test;
 
 /**
  * 用两个栈实现队列
- * 思路1：用a栈按入队顺序保存元素，当需要出队时，将a栈所有元素pop至b栈，b栈顶元素即为队头元素，出队后，再将b栈所有元素pop至a栈
+ * 思路1：用a栈按入队顺序保存元素
+ * 当需要出队时，检查b栈是否为空，
+ * 若b栈不为空，则b栈元素序列为当前出队序列
+ * 若b栈为空，则将a栈所有元素pop至b栈，b栈元素序列即为出队序列
  * @author prd-fuy
  * @version $Id: TwoStacksQueue.java, v 0.1 2019年8月16日 下午4:33:19 prd-fuy Exp $
  */
@@ -26,27 +29,23 @@ public class TwoStacksQueue {
     public int poll() {
         if (stack1.empty() && stack2.empty())
             throw new RuntimeException("queue is empty");
-        while (!stack1.empty()) {
-            stack2.push(stack1.pop());
+        else if (stack2.empty()) {
+            while (!stack1.empty()) {
+                stack2.push(stack1.pop());
+            }
         }
-        int data = stack2.pop();
-        while (!stack2.empty()) {
-            stack1.push(stack2.pop());
-        }
-        return data;
+        return stack2.pop();
     }
     
     public int peek() {
         if (stack1.empty() && stack2.empty())
             throw new RuntimeException("queue is empty");
-        while (!stack1.empty()) {
-            stack2.push(stack1.pop());
+        else if (stack2.empty()) {
+            while (!stack1.empty()) {
+                stack2.push(stack1.pop());
+            }
         }
-        int data = stack2.peek();
-        while (!stack2.empty()) {
-            stack1.push(stack2.pop());
-        }
-        return data;
+        return stack2.peek();
     }
     
     @Test
