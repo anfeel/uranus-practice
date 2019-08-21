@@ -1,5 +1,8 @@
 package org.szfs.basic.web.demo.test.dataStruture;
 
+import java.util.Deque;
+import java.util.LinkedList;
+
 import org.junit.Test;
 
 /**
@@ -43,7 +46,12 @@ public class SlidingMaxWindow {
     }
     
     /**
-     * 
+     * <b>时间复杂度O(arr.length)的方法，构造双端队列，存储数组下标</b>
+     * <p>开始遍历数组：</p>
+     * <p>入队时，若当前队列为空，直接入队</p>
+     * <p>若不为空，则判断当前值与队尾大小，若当前值小则直接入队尾，否则弹出队尾，并继续下一轮判断</p>
+     * <p>出队时，若队头下标在窗口外，则弹出队头</p>
+     * <p>以当前队头为输出最大值数组</p>
      * @return
      */
     public int[] getMaxValueArray2() {
@@ -52,6 +60,17 @@ public class SlidingMaxWindow {
         if (window == 1)
             return this.array;
         int[] output = new int[array.length - window + 1];
+        Deque<Integer> deque = new LinkedList<Integer>();
+        for (int i = 0; i < array.length; i++) {
+            while (!deque.isEmpty() && array[i] >= array[deque.peekLast()]) {
+                deque.pollLast();
+            }
+            deque.add(i);
+            if (deque.peekFirst() == i - window)
+                deque.pollFirst();
+            if (i + 1 >= window)
+                output[i - window + 1] = array[deque.peekFirst()];
+        }
         return output;
     }
     
@@ -62,9 +81,13 @@ public class SlidingMaxWindow {
         SlidingMaxWindow slidingMaxWindow = new SlidingMaxWindow();
         slidingMaxWindow.setArray(array);
         slidingMaxWindow.setWindow(window);
-        int[] output = slidingMaxWindow.getMaxValueArray();
-        for (int i = 0; i < output.length; i++) {
-            System.out.println("output [" + i + "] : " + output[i]);
+        //        int[] output = slidingMaxWindow.getMaxValueArray();
+        //        for (int i = 0; i < output.length; i++) {
+        //            System.out.println("output [" + i + "] : " + output[i]);
+        //        }
+        int[] output2 = slidingMaxWindow.getMaxValueArray2();
+        for (int i = 0; i < output2.length; i++) {
+            System.out.println("output [" + i + "] : " + output2[i]);
         }
     }
 }
