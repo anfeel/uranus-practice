@@ -1,4 +1,4 @@
-package org.szfs.basic.web.demo.test.dataStruture;
+package org.szfs.basic.web.demo.test.array;
 
 import java.util.Deque;
 import java.util.LinkedList;
