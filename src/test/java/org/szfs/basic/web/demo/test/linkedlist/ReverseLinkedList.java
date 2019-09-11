@@ -1,4 +1,4 @@
-package org.szfs.basic.web.demo.test.dataStruture;
+package org.szfs.basic.web.demo.test.linkedlist;
 
 import org.junit.Test;
 
