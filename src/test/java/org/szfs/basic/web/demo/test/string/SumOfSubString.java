@@ -1,9 +1,5 @@
 package org.szfs.basic.web.demo.test.string;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.junit.Test;
 
 /**
@@ -23,7 +19,7 @@ public class SumOfSubString {
         if (str == null)
             return 0;
         char[] arr = str.toCharArray();
-        List<Integer> list = new ArrayList<>();
+        int sum = 0;
         for (int i = 0; i < arr.length; i++) {
             if (Character.isDigit(arr[i])) {
                 int k = i, r = i;
@@ -40,17 +36,12 @@ public class SumOfSubString {
                     if (r != arr.length && Character.isDigit(arr[r]))
                         r++;
                     else {
-                        list.add(Integer.parseInt(str.substring(i, r)) * (sign % 2 == 1 ? -1 : 1));
+                        sum += Integer.parseInt(str.substring(i, r)) * (sign % 2 == 1 ? -1 : 1);
                         i = r;
                         break;
                     }
                 }
             }
-        }
-        int sum = 0;
-        for (Iterator<Integer> iterator = list.iterator(); iterator.hasNext();) {
-            Integer integer = (Integer) iterator.next();
-            sum += integer;
         }
         return sum;
     }
