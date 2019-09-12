@@ -46,17 +46,44 @@ public class SumOfSubString {
         return sum;
     }
     
+    public int sumSubString2(String str) {
+        if (str == null)
+            return 0;
+        char[] arr = str.toCharArray();
+        int sum = 0;
+        int res = 0;
+        boolean sign = true;
+        int cur = 0;
+        for (int i = 0; i < arr.length; i++) {
+            cur = arr[i] - '0';
+            if (cur < 0 || cur > 9) {
+                sum += res;
+                res = 0;
+                if (arr[i] == '-') {
+                    if (i > 0 && arr[i - 1] == '-') {
+                        sign = !sign;
+                    } else
+                        sign = false;
+                } else
+                    sign = true;
+            } else
+                res = res * 10 + (sign ? cur : -cur);
+        }
+        sum += res;
+        return sum;
+    }
+    
     @Test
     public void test1() {
         String str = "A1CD2E33";
-        int res = sumSubString(str);
+        int res = sumSubString2(str);
         System.out.println("result = " + res);
     }
     
     @Test
     public void test2() {
         String str = "A-1B--2C--D6E";
-        int res = sumSubString(str);
+        int res = sumSubString2(str);
         System.out.println("result = " + res);
     }
 }
