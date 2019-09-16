@@ -14,15 +14,15 @@ import java.util.HashMap;
  * @version $Id: LeastRecentlyUsedCache.java, v 0.1 2019年9月12日 下午2:53:20 prd-fuy Exp $
  * @param <V>
  */
-public class LeastRecentlyUsedCache<V> {
+public class LeastRecentlyUsedCache<K, V> {
     
-    private HashMap<String, String>  map       = new HashMap<>();
+    private HashMap<K, Node<V>>  keyToNode;
     
-    private HashMap<String, Node<V>> keyToNode = new HashMap<>();
+    private HashMap<Node<V>, K>  nodeToKey;
     
-    private HashMap<Node<V>, String> nodeToKey = new HashMap<>();
+    private NodeDoubleLinkedList linkedList;
     
-    private int                      size;
+    private int                  capacity;
     
     class Node<V> {
         public V       value;
@@ -77,8 +77,13 @@ public class LeastRecentlyUsedCache<V> {
         
     }
     
-    public LeastRecentlyUsedCache(int size) {
-        this.size = size;
+    public LeastRecentlyUsedCache(int capacity) {
+        if (capacity > 1)
+            throw new RuntimeException("capacity cannot lower than 1..");
+        this.capacity = capacity;
+        this.keyToNode = new HashMap<>();
+        this.nodeToKey = new HashMap<>();
+        this.linkedList = new NodeDoubleLinkedList();
     }
     
     public void set(String key, String value) {

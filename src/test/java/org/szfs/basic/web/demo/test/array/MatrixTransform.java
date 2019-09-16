@@ -14,6 +14,8 @@ import org.junit.Test;
  * 14 10   6   7
  * 15 11   7   3
  * 16 12   8   4
+ * 空间复杂度不做要求，直接转置
+ * 空间复杂度O(1)
  * @author prd-fuy
  * @version $Id: MatrixTransform.java, v 0.1 2019年9月5日 下午8:07:36 prd-fuy Exp $
  */
@@ -28,6 +30,16 @@ public class MatrixTransform {
             }
         }
         return result;
+    }
+    
+    public int[][] matrixTransformWithMinStore(int[][] matrix) {
+        int sideLen = matrix.length;
+        int tmp = 0;
+        for (int i = 0; i < sideLen; i++) {
+            for (int j = 0; j < sideLen; j++) {
+            }
+        }
+        return matrix;
     }
     
     public void printMatrix(int[][] matrix) {
