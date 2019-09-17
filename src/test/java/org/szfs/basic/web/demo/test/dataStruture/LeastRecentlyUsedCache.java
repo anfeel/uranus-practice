@@ -43,6 +43,10 @@ public class LeastRecentlyUsedCache<K, V> {
             this.tail = null;
         }
         
+        /**
+         * 新增数据至缓存结构即在链表尾部新增节点
+         * @param node
+         */
         public void addNode(Node<V> node) {
             if (node == null)
                 return;
@@ -56,6 +60,11 @@ public class LeastRecentlyUsedCache<K, V> {
             }
         }
         
+        /**
+         * 用链表结构表示缓存数据使用的频率，即最常使用的节点在尾部，最不常使用的节点在头部
+         * 若发生set或get操作，则需调用moveToTail方法将节点移至尾部
+         * @param node
+         */
         public void moveToTail(Node<V> node) {
             if (node == tail)
                 return;
@@ -72,6 +81,11 @@ public class LeastRecentlyUsedCache<K, V> {
             this.tail = node;
         }
         
+        /**
+         * 若新增数据时发现缓存已满，则需移除缓存中最不常使用的数据
+         * 该操作即链表结构中移除头部节点
+         * @return
+         */
         public Node<V> removeHead() {
             if (this.head == null)
                 return null;
@@ -93,6 +107,13 @@ public class LeastRecentlyUsedCache<K, V> {
         this.linkedList = new NodeDoubleLinkedList();
     }
     
+    /**
+     * 缓存结构set操作：
+     * 1.若结构中包含此key，则更新value，并在链表结构中移至尾部表示最常使用，同时更新两组map
+     * 2.若结构中不包含此key，则新增节点至尾部；若发现容量已满，则需先调用removeRecentlyUnused移除最不常使用的节点；
+     * @param key
+     * @param value
+     */
     public void set(K key, V value) {
         if (keyToNode.containsKey(key)) {
             Node<V> node = keyToNode.get(key);
@@ -111,6 +132,12 @@ public class LeastRecentlyUsedCache<K, V> {
         }
     }
     
+    /**
+     * 缓存结构get操作：
+     * 获取缓存数据同时将该数据设为最常使用
+     * @param key
+     * @return
+     */
     public V get(K key) {
         if (!keyToNode.containsKey(key))
             return null;
