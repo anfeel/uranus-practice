@@ -46,22 +46,28 @@ public class LeastRecentlyUsedCache<K, V> {
         public void addNode(Node<V> node) {
             if (node == null)
                 return;
-            this.tail.next = node;
-            node.last = this.tail;
-            tail = node;
+            if (this.head == null) {
+                this.head = node;
+                this.tail = node;
+            } else {
+                this.tail.next = node;
+                node.last = this.tail;
+                tail = node;
+            }
         }
         
         public void moveToTail(Node<V> node) {
             if (node == tail)
                 return;
             if (node == head) {
-                this.head.next.last = null;
-                this.head.next = null;
+                this.head = node.next;
+                this.head.last = null;
             } else {
                 node.next.last = node.last;
                 node.last.next = node.next;
             }
             node.last = this.tail;
+            node.next = null;
             this.tail.next = node;
             this.tail = node;
         }
@@ -69,16 +75,17 @@ public class LeastRecentlyUsedCache<K, V> {
         public Node<V> removeHead() {
             if (this.head == null)
                 return null;
-            
-            this.head = this.head.next;
-            this.head.last = null;
+            Node<V> node = this.head.next;
+            this.head.next = null;
+            node.last = null;
+            this.head = node;
             return this.head;
         }
         
     }
     
     public LeastRecentlyUsedCache(int capacity) {
-        if (capacity > 1)
+        if (capacity <= 1)
             throw new RuntimeException("capacity cannot lower than 1..");
         this.capacity = capacity;
         this.keyToNode = new HashMap<>();
@@ -86,12 +93,53 @@ public class LeastRecentlyUsedCache<K, V> {
         this.linkedList = new NodeDoubleLinkedList();
     }
     
-    public void set(String key, String value) {
+    public void set(K key, V value) {
+        if (keyToNode.containsKey(key)) {
+            Node<V> node = keyToNode.get(key);
+            node.value = value;
+            linkedList.moveToTail(node);
+            keyToNode.put(key, node);
+            nodeToKey.put(node, key);
+        } else {
+            if (keyToNode.size() == this.capacity) {
+                removeRecentlyUnused();
+            }
+            Node<V> node = new Node<V>(value);
+            linkedList.addNode(node);
+            keyToNode.put(key, node);
+            nodeToKey.put(node, key);
+        }
     }
     
-    public String get(String key) {
-        
-        return null;
+    public V get(K key) {
+        if (!keyToNode.containsKey(key))
+            return null;
+        else {
+            Node<V> node = keyToNode.get(key);
+            linkedList.moveToTail(node);
+            return keyToNode.get(key).value;
+        }
+    }
+    
+    public void removeRecentlyUnused() {
+        if (linkedList.head == null)
+            return;
+        else {
+            Node<V> node = linkedList.removeHead();
+            K key = nodeToKey.get(node);
+            keyToNode.remove(key);
+            nodeToKey.remove(node);
+        }
+    }
+    
+    public static void main(String[] args) {
+        LeastRecentlyUsedCache<String, Integer> cache = new LeastRecentlyUsedCache<>(3);
+        cache.set("A", 1);
+        cache.set("B", 2);
+        cache.set("C", 3);
+        int i = cache.get("A");
+        cache.set("D", 4);
+        int j = 0;
     }
     
 }
