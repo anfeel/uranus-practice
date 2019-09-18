@@ -1,6 +1,7 @@
 package org.szfs.basic.web.demo.test.dataStruture;
 
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * 设计一种结构，在该结构下有三个功能：
@@ -22,15 +23,16 @@ public class RandomPool<K> {
     public RandomPool() {
         this.keyMap = new HashMap<>();
         this.indexMap = new HashMap<>();
-        this.i = 0;
+        this.i = 1;
     }
     
     public void insert(K key) {
         if (keyMap.containsKey(key)) {
             System.out.println("The key is already exist");
         } else {
-            keyMap.put(key, i++);
+            keyMap.put(key, i);
             indexMap.put(i, key);
+            i++;
         }
     }
     
@@ -38,13 +40,34 @@ public class RandomPool<K> {
         if (!keyMap.containsKey(key)) {
             System.out.println("The key doesn't exists");
         } else {
-            int index = keyMap.get(key);
+            int deleteIndex = keyMap.get(key);
+            int lastIndex = this.i - 1;
+            K lastKey = indexMap.get(lastIndex);
+            indexMap.remove(lastIndex);
+            indexMap.remove(deleteIndex);
+            keyMap.remove(lastKey);
             keyMap.remove(key);
-            indexMap.remove(index);
+            keyMap.put(lastKey, deleteIndex);
+            indexMap.put(deleteIndex, lastKey);
+            i--;
         }
     }
     
     public K getRandom() {
-        return null;
+        Random r = new Random();
+        int index = r.nextInt(i - 1) + 1;
+        return indexMap.get(index);
+    }
+    
+    public static void main(String[] args) {
+        RandomPool<String> pool = new RandomPool<>();
+        pool.insert("A");
+        pool.insert("B");
+        pool.insert("C");
+        pool.insert("D");
+        pool.delete("C");
+        for (int i = 0; i <= 10; i++) {
+            System.out.println("Get random key : " + pool.getRandom());
+        }
     }
 }
