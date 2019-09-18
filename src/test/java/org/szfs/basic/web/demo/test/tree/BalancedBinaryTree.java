@@ -10,7 +10,7 @@ import org.junit.Test;
  */
 public class BalancedBinaryTree {
     class TreeNode {
-        int      val   = 0;
+        int      val;
         TreeNode left  = null;
         TreeNode right = null;
         
@@ -53,11 +53,9 @@ public class BalancedBinaryTree {
         t1.left = t2;
         t1.right = t3;
         t2.left = t4;
-        t2.right = t5;
         t4.left = t5;
         t3.left = t6;
         t3.right = t7;
-        t5.left = t8;
         System.out.println("This TreeNode is balancedTree? " + isBalancedTree(t1));
     }
     
