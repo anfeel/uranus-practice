@@ -1,5 +1,7 @@
 package org.szfs.basic.web.demo.test.tree;
 
+import java.util.Stack;
+
 import org.junit.Test;
 
 /**
@@ -38,7 +40,18 @@ public class TraverseBinaryTree {
      * @param root
      */
     public void preOrderNonRecur(TreeNode root) {
-        
+        if (root == null)
+            return;
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            System.out.printf(" %d ", node.val);
+            if (node.right != null)
+                stack.push(node.right);
+            if (node.left != null)
+                stack.push(node.left);
+        }
     }
     
     /**
@@ -46,10 +59,11 @@ public class TraverseBinaryTree {
      * @param root
      */
     public void inOrderRecur(TreeNode root) {
-        if (root.left == null)
+        if (root == null)
             return;
+        inOrderRecur(root.left);
         System.out.printf(" %d ", root.val);
-        preOrderRecur(root.right);
+        inOrderRecur(root.right);
     }
     
     /**
@@ -57,7 +71,19 @@ public class TraverseBinaryTree {
      * @param root
      */
     public void inOrderNonRecur(TreeNode root) {
-        
+        if (root == null)
+            return;
+        Stack<TreeNode> stack = new Stack<>();
+        while (!stack.isEmpty() || root != null) {
+            if (root != null) {
+                stack.push(root);
+                root = root.left;
+            } else {
+                root = stack.pop();
+                System.out.printf(" %d ", root.val);
+                root = root.right;
+            }
+        }
     }
     
     /**
@@ -65,11 +91,9 @@ public class TraverseBinaryTree {
      * @param root
      */
     public void postOrderRecur(TreeNode root) {
-        if (root.left == null)
+        if (root == null)
             return;
         postOrderRecur(root.left);
-        if (root.right == null)
-            return;
         postOrderRecur(root.right);
         System.out.printf(" %d ", root.val);
     }
@@ -99,8 +123,15 @@ public class TraverseBinaryTree {
         t3.left = t6;
         t3.right = t7;
         t5.left = t8;
+        System.out.println(" preOrder: ");
         preOrderRecur(t1);
-        System.out.println();
+        System.out.println("\n inOrder: ");
+        inOrderRecur(t1);
+        System.out.println("\n postOrder: ");
         postOrderRecur(t1);
+        System.out.println("\n preOrderNonRecur: ");
+        preOrderNonRecur(t1);
+        System.out.println("\n inOrderNonRecur: ");
+        inOrderNonRecur(t1);
     }
 }
