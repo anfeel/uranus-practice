@@ -103,7 +103,24 @@ public class TraverseBinaryTree {
      * @param root
      */
     public void postOrderNonRecur(TreeNode root) {
-        
+        if (root == null)
+            return;
+        Stack<TreeNode> stack1 = new Stack<>();
+        Stack<TreeNode> stack2 = new Stack<>();
+        stack1.push(root);
+        while (!stack1.isEmpty()) {
+            root = stack1.pop();
+            stack2.push(root);
+            if (root.left != null) {
+                stack1.push(root.left);
+            }
+            if (root.right != null) {
+                stack1.push(root.right);
+            }
+        }
+        while (!stack2.isEmpty()) {
+            System.out.printf(" %d ", stack2.pop().val);
+        }
     }
     
     @Test
@@ -116,13 +133,15 @@ public class TraverseBinaryTree {
         TreeNode t6 = new TreeNode(6);
         TreeNode t7 = new TreeNode(7);
         TreeNode t8 = new TreeNode(8);
+        TreeNode t9 = new TreeNode(9);
         t1.left = t2;
         t1.right = t3;
         t2.left = t4;
-        t4.left = t5;
+        t4.right = t5;
         t3.left = t6;
         t3.right = t7;
-        t5.left = t8;
+        t4.left = t8;
+        t5.right = t9;
         System.out.println(" preOrder: ");
         preOrderRecur(t1);
         System.out.println("\n inOrder: ");
@@ -133,5 +152,7 @@ public class TraverseBinaryTree {
         preOrderNonRecur(t1);
         System.out.println("\n inOrderNonRecur: ");
         inOrderNonRecur(t1);
+        System.out.println("\n postOrderNonRecur: ");
+        postOrderNonRecur(t1);
     }
 }
