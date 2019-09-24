@@ -100,6 +100,7 @@ public class TraverseBinaryTree {
     
     /**
      * 后序非递归遍历
+     * 使用两个栈
      * @param root
      */
     public void postOrderNonRecur(TreeNode root) {
@@ -120,6 +121,31 @@ public class TraverseBinaryTree {
         }
         while (!stack2.isEmpty()) {
             System.out.printf(" %d ", stack2.pop().val);
+        }
+    }
+    
+    /**
+     * 后序非递归遍历
+     * 使用一个栈
+     * @param root
+     */
+    public void postOrderNonRecur2(TreeNode root) {
+        if (root == null)
+            return;
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        TreeNode cur = null;
+        while (!stack.isEmpty()) {
+            cur = stack.peek();
+            if (cur.left != null && root != cur.left && root != cur.right) {
+                stack.push(cur.left);
+            } else if (cur.right != null && root != cur.right) {
+                stack.push(cur.right);
+            } else {
+                System.out.printf(" %d ", stack.pop().val);
+                root = cur;
+            }
+            
         }
     }
     
@@ -152,7 +178,9 @@ public class TraverseBinaryTree {
         preOrderNonRecur(t1);
         System.out.println("\n inOrderNonRecur: ");
         inOrderNonRecur(t1);
-        System.out.println("\n postOrderNonRecur: ");
+        System.out.println("\n postOrderNonRecur , use two stack : ");
         postOrderNonRecur(t1);
+        System.out.println("\n postOrderNonRecur , use one stack: ");
+        postOrderNonRecur2(t1);
     }
 }
