@@ -61,7 +61,9 @@ public class Palindrome {
     
     public void printLinkedList(Node pHead) {
         while (pHead != null) {
-            System.out.print(pHead.value + " -> ");
+            System.out.print(pHead.value);
+            if (pHead.next != null)
+                System.out.print(" -> ");
             pHead = pHead.next;
         }
         System.out.println();
