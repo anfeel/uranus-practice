@@ -13,15 +13,6 @@ import org.junit.Test;
  * @version $Id: TraverseBinaryTree.java, v 0.1 2019年9月18日 下午12:31:04 prd-fuy Exp $
  */
 public class TraverseBinaryTree {
-    class TreeNode {
-        int      val   = 0;
-        TreeNode left  = null;
-        TreeNode right = null;
-        
-        public TreeNode(int val) {
-            this.val = val;
-        }
-    }
     
     /**
      * 先序递归遍历
@@ -147,6 +138,32 @@ public class TraverseBinaryTree {
             }
             
         }
+    }
+    
+    /**
+     * 中序！神级！遍历
+     * morris遍历，利用叶子节点的空指针存储节点信息
+     * 额外空间复杂度O(1)
+     * @param root
+     */
+    public void inOrderBestRecur(TreeNode root) {
+        if (root == null)
+            return;
+        TreeNode cur1 = root;
+        TreeNode cur2 = null;
+        while (cur1 != null) {
+            while (cur1.left != null) {
+                cur2 = cur1.left;
+                if (cur2.right != null) {
+                    while (cur2 != null)
+                        cur2 = cur2.right;
+                } else
+                    cur2.right = cur1;
+                cur1 = cur2;
+                
+            }
+        }
+        
     }
     
     @Test
