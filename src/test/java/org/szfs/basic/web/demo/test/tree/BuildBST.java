@@ -20,10 +20,17 @@ public class BuildBST {
         return node;
     }
     
+    public TreeNode build(int[] arr) {
+        if (arr == null)
+            return null;
+        else
+            return buildBST(arr, 0, arr.length - 1);
+    }
+    
     @Test
     public void test1() {
         int[] arr = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        TreeNode node = buildBST(arr, 0, arr.length - 1);
+        TreeNode node = build(arr);
         TraverseBinaryTree tree = new TraverseBinaryTree();
         tree.inOrderRecur(node);
     }

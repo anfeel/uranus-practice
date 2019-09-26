@@ -9,15 +9,6 @@ import org.junit.Test;
  * @version $Id: BalancedBinaryTree.java, v 0.1 2019年9月11日 上午11:08:12 prd-fuy Exp $
  */
 public class BalancedBinaryTree {
-    class TreeNode {
-        int      val;
-        TreeNode left  = null;
-        TreeNode right = null;
-        
-        public TreeNode(int val) {
-            this.val = val;
-        }
-    }
     
     public boolean isBalancedTree(TreeNode head) {
         boolean[] res = new boolean[1];
