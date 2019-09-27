@@ -1,11 +1,11 @@
-package concurrency.deadlock;
+package concurrency;
 
 /**
  * 串行和并行执行，比较累加操作时间
  * @author prd-fuy
  * @version $Id: ConcurrencyTest.java, v 0.1 2019年9月20日 上午10:12:38 prd-fuy Exp $
  */
-public class ConcurrencyTest {
+public class ConcurrencyTimeTest {
     
     private static final long count = 100000000l;
     

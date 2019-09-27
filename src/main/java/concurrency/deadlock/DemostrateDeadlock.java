@@ -1,8 +1,6 @@
-package concurrency;
+package concurrency.deadlock;
 
 import java.util.Random;
-
-import concurrency.deadlock.Account;
 
 /**
  * 
