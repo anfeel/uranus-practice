@@ -9,55 +9,14 @@ import org.junit.Test;
  * @version $Id: ReverseLinkedList.java, v 0.1 2019年8月21日 下午2:58:12 prd-fuy Exp $
  */
 public class ReverseLinkedList {
-    class Node {
-        public int  value;
-        public Node next;
-        
-        public Node(int data) {
-            this.value = data;
-        }
-    }
     
-    class DoubleNode {
-        public int        value;
-        public DoubleNode last;
-        public DoubleNode next;
-        
-        public DoubleNode(int data) {
-            this.value = data;
-        }
-    }
-    
-    public void printLinkedList(Node pHead) {
-        while (pHead != null) {
-            System.out.println("node -> " + pHead.value);
-            pHead = pHead.next;
-        }
-    }
-    
-    public void printDoubleLinkedList(DoubleNode pHead) {
-        while (pHead != null) {
-            System.out.println("positive order : node -> " + pHead.value);
-            if (pHead.next == null)
-                break;
-            pHead = pHead.next;
-        }
-        System.out.println("begin from the end of list.....");
-        while (pHead != null) {
-            System.out.println("negative order :node -> " + pHead.value);
-            if (pHead.last == null)
-                break;
-            pHead = pHead.last;
-        }
-    }
-    
-    public Node reverseNode(Node head) {
+    public ListNode reverseNode(ListNode head) {
         if (head == null)
             return null;
         if (head.next == null)
             return head;
-        Node cur = new Node(0);
-        Node tmp = new Node(0);
+        ListNode cur = new ListNode(0);
+        ListNode tmp = new ListNode(0);
         if (head.next != null) {
             cur.next = head.next;
             head.next = null;
@@ -77,12 +36,12 @@ public class ReverseLinkedList {
      * @param head
      * @return
      */
-    public Node reverseNode2(Node head) {
+    public ListNode reverseNode2(ListNode head) {
         if (head == null)
             return null;
         if (head.next == null)
             return head;
-        Node pre = null, next = null;
+        ListNode pre = null, next = null;
         while (head != null) {
             next = head.next;
             head.next = pre;
@@ -92,14 +51,14 @@ public class ReverseLinkedList {
         return pre;
     }
     
-    public DoubleNode reverseDoubleNode(DoubleNode head) {
+    public DoubleListNode reverseDoubleListNode(DoubleListNode head) {
         if (head == null)
             return null;
         //若头结点没有next节点，则直接返回头结点
         if (head.next == null)
             return head;
-        DoubleNode cur = new DoubleNode(0);
-        DoubleNode tmp = new DoubleNode(0);
+        DoubleListNode cur = new DoubleListNode(0);
+        DoubleListNode tmp = new DoubleListNode(0);
         //若头结点有next节点，先获得头结点的next，再修改头结点的next和last指向
         if (head.next != null) {
             cur.next = head.next;
@@ -128,12 +87,12 @@ public class ReverseLinkedList {
         return cur.next;
     }
     
-    public DoubleNode reverseDoubleNode2(DoubleNode head) {
+    public DoubleListNode reverseDoubleListNode2(DoubleListNode head) {
         if (head == null)
             return null;
         if (head.next == null)
             return head;
-        DoubleNode pre = null, next = null;
+        DoubleListNode pre = null, next = null;
         while (head != null) {
             next = head.next;
             head.next = pre;
@@ -146,41 +105,41 @@ public class ReverseLinkedList {
     
     @Test
     public void test1() {
-        Node p1_1 = new Node(1);
-        Node p1_2 = new Node(2);
+        ListNode p1_1 = new ListNode(1);
+        ListNode p1_2 = new ListNode(2);
         p1_1.next = p1_2;
-        Node p1_3 = new Node(3);
+        ListNode p1_3 = new ListNode(3);
         p1_2.next = p1_3;
-        Node p1_4 = new Node(4);
+        ListNode p1_4 = new ListNode(4);
         p1_3.next = p1_4;
-        Node p1_5 = new Node(5);
+        ListNode p1_5 = new ListNode(5);
         p1_4.next = p1_5;
         System.out.println("before reverse....");
-        printLinkedList(p1_1);
-        Node node = reverseNode2(p1_1);
+        ListNode.printLinkedList(p1_1);
+        ListNode node = reverseNode2(p1_1);
         System.out.println("after reverse....");
-        printLinkedList(node);
+        ListNode.printLinkedList(node);
     }
     
     @Test
     public void test2() {
-        DoubleNode p1_1 = new DoubleNode(1);
-        DoubleNode p1_2 = new DoubleNode(2);
+        DoubleListNode p1_1 = new DoubleListNode(1);
+        DoubleListNode p1_2 = new DoubleListNode(2);
         p1_1.next = p1_2;
         p1_2.last = p1_1;
-        DoubleNode p1_3 = new DoubleNode(3);
+        DoubleListNode p1_3 = new DoubleListNode(3);
         p1_2.next = p1_3;
         p1_3.last = p1_2;
-        DoubleNode p1_4 = new DoubleNode(4);
+        DoubleListNode p1_4 = new DoubleListNode(4);
         p1_3.next = p1_4;
         p1_4.last = p1_3;
-        DoubleNode p1_5 = new DoubleNode(5);
+        DoubleListNode p1_5 = new DoubleListNode(5);
         p1_4.next = p1_5;
         p1_5.last = p1_4;
         System.out.println("before reverse....");
-        printDoubleLinkedList(p1_1);
-        DoubleNode node = reverseDoubleNode2(p1_1);
+        DoubleListNode.printDoubleLinkedList(p1_1);
+        DoubleListNode node = reverseDoubleListNode2(p1_1);
         System.out.println("after reverse....");
-        printDoubleLinkedList(node);
+        DoubleListNode.printDoubleLinkedList(node);
     }
 }

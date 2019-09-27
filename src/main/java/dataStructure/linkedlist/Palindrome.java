@@ -17,21 +17,13 @@ import org.junit.Test;
  * @version $Id: Palindrome.java, v 0.1 2019年9月25日 下午4:19:50 prd-fuy Exp $
  */
 public class Palindrome {
-    class Node {
-        public int  value;
-        public Node next;
-        
-        public Node(int data) {
-            this.value = data;
-        }
-    }
     
-    public boolean palindrome(Node head) {
+    public boolean palindrome(ListNode head) {
         if (head == null || head.next == null)
             return false;
         int len = 0;
-        Stack<Node> stack1 = new Stack<>();
-        Node cur = head;
+        Stack<ListNode> stack1 = new Stack<>();
+        ListNode cur = head;
         while (cur != null) {
             stack1.push(cur);
             cur = cur.next;
@@ -59,80 +51,70 @@ public class Palindrome {
         return false;
     }
     
-    public void printLinkedList(Node pHead) {
-        while (pHead != null) {
-            System.out.print(pHead.value);
-            if (pHead.next != null)
-                System.out.print(" -> ");
-            pHead = pHead.next;
-        }
-        System.out.println();
-    }
-    
     @Test
     public void test1() {
-        Node p1_1 = new Node(1);
-        Node p1_2 = new Node(2);
+        ListNode p1_1 = new ListNode(1);
+        ListNode p1_2 = new ListNode(2);
         p1_1.next = p1_2;
-        Node p1_3 = new Node(3);
+        ListNode p1_3 = new ListNode(3);
         p1_2.next = p1_3;
-        Node p1_4 = new Node(2);
+        ListNode p1_4 = new ListNode(2);
         p1_3.next = p1_4;
-        Node p1_5 = new Node(1);
+        ListNode p1_5 = new ListNode(1);
         p1_4.next = p1_5;
-        printLinkedList(p1_1);
+        ListNode.printLinkedList(p1_1);
         boolean b = palindrome(p1_1);
         System.out.println(" palindrome ?  " + b);
     }
     
     @Test
     public void test2() {
-        Node p1_1 = new Node(1);
-        Node p1_2 = new Node(2);
+        ListNode p1_1 = new ListNode(1);
+        ListNode p1_2 = new ListNode(2);
         p1_1.next = p1_2;
-        Node p1_3 = new Node(3);
+        ListNode p1_3 = new ListNode(3);
         p1_2.next = p1_3;
-        Node p1_4 = new Node(4);
+        ListNode p1_4 = new ListNode(4);
         p1_3.next = p1_4;
-        Node p1_5 = new Node(5);
+        ListNode p1_5 = new ListNode(5);
         p1_4.next = p1_5;
-        printLinkedList(p1_1);
+        ListNode.printLinkedList(p1_1);
         boolean b = palindrome(p1_1);
         System.out.println(" palindrome ?  " + b);
     }
     
     @Test
     public void test3() {
-        Node p1_1 = new Node(1);
-        Node p1_2 = new Node(2);
+        ListNode p1_1 = new ListNode(1);
+        ListNode p1_2 = new ListNode(2);
         p1_1.next = p1_2;
-        Node p1_3 = new Node(3);
+        ListNode p1_3 = new ListNode(3);
         p1_2.next = p1_3;
-        Node p1_4 = new Node(4);
+        ListNode p1_4 = new ListNode(4);
         p1_3.next = p1_4;
-        Node p1_5 = new Node(5);
+        ListNode p1_5 = new ListNode(5);
         p1_4.next = p1_5;
-        Node p1_6 = new Node(6);
+        ListNode p1_6 = new ListNode(6);
         p1_5.next = p1_6;
-        printLinkedList(p1_1);
+        ListNode.printLinkedList(p1_1);
         boolean b = palindrome(p1_1);
         System.out.println(" palindrome ?  " + b);
     }
     
     @Test
     public void test4() {
-        Node p1_1 = new Node(1);
-        Node p1_2 = new Node(2);
+        ListNode p1_1 = new ListNode(1);
+        ListNode p1_2 = new ListNode(2);
         p1_1.next = p1_2;
-        Node p1_3 = new Node(3);
+        ListNode p1_3 = new ListNode(3);
         p1_2.next = p1_3;
-        Node p1_4 = new Node(3);
+        ListNode p1_4 = new ListNode(3);
         p1_3.next = p1_4;
-        Node p1_5 = new Node(2);
+        ListNode p1_5 = new ListNode(2);
         p1_4.next = p1_5;
-        Node p1_6 = new Node(1);
+        ListNode p1_6 = new ListNode(1);
         p1_5.next = p1_6;
-        printLinkedList(p1_1);
+        ListNode.printLinkedList(p1_1);
         boolean b = palindrome(p1_1);
         System.out.println(" palindrome ?  " + b);
     }
