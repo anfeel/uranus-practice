@@ -16,16 +16,21 @@ public class DoubleListNode {
     }
     
     public static void printDoubleLinkedList(DoubleListNode pHead) {
+        System.out.println("positive order : ");
         while (pHead != null) {
-            System.out.println("positive order : node -> " + pHead.value);
-            if (pHead.next == null)
+            System.out.print(pHead.value);
+            if (pHead.next != null)
+                System.out.print(" -> ");
+            else
                 break;
             pHead = pHead.next;
         }
-        System.out.println("begin from the end of list.....");
+        System.out.println("\nnegative order : ");
         while (pHead != null) {
-            System.out.println("negative order :node -> " + pHead.value);
-            if (pHead.last == null)
+            System.out.print(pHead.value);
+            if (pHead.last != null)
+                System.out.print(" -> ");
+            else
                 break;
             pHead = pHead.last;
         }
