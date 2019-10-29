@@ -19,16 +19,16 @@ public class DeleteDuplicateNode {
         HashMap<Integer, Integer> map = new HashMap<>();
         ListNode cur1 = head;
         while (cur1 != null) {
-            if (map.containsKey(cur1.value)) {
-                map.put(cur1.value, map.get(cur1.value) + 1);
+            if (map.containsKey(cur1.val)) {
+                map.put(cur1.val, map.get(cur1.val) + 1);
             } else
-                map.put(cur1.value, 1);
+                map.put(cur1.val, 1);
             cur1 = cur1.next;
         }
         cur1 = head;
         ListNode cur2 = cur1;
         while (cur2 != null) {
-            if (map.containsKey(cur2.value) && map.get(cur2.value) > 1) {
+            if (map.containsKey(cur2.val) && map.get(cur2.val) > 1) {
                 if (cur2 != head) {
                     cur2 = cur2.next;
                     cur1.next = cur2;

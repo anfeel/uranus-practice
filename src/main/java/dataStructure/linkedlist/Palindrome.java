@@ -33,14 +33,14 @@ public class Palindrome {
         while (!stack1.isEmpty()) {
             if (len % 2 == 1) {
                 while (j > (len + 1) / 2) {
-                    if (head.value != stack1.pop().value)
+                    if (head.val != stack1.pop().val)
                         return false;
                     head = head.next;
                     j--;
                 }
             } else {
                 while (j > len / 2) {
-                    if (head.value != stack1.pop().value)
+                    if (head.val != stack1.pop().val)
                         return false;
                     head = head.next;
                     j--;

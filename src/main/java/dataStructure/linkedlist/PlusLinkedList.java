@@ -30,8 +30,8 @@ public class PlusLinkedList {
         int carry = 0;
         ListNode last = null;
         while (!stack1.isEmpty() || !stack2.isEmpty()) {
-            int num1 = stack1.isEmpty() ? 0 : stack1.pop().value;
-            int num2 = stack2.isEmpty() ? 0 : stack2.pop().value;
+            int num1 = stack1.isEmpty() ? 0 : stack1.pop().val;
+            int num2 = stack2.isEmpty() ? 0 : stack2.pop().val;
             int num = num1 + num2 + carry;
             if (num >= 10) {
                 num %= 10;

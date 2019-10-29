@@ -6,16 +6,16 @@ package dataStructure.linkedlist;
  * @version $Id: ListNode.java, v 0.1 2019年9月27日 上午11:13:32 prd-fuy Exp $
  */
 public class ListNode {
-    public int      value;
+    public int      val;
     public ListNode next;
     
     public ListNode(int data) {
-        this.value = data;
+        this.val = data;
     }
     
     public static void printLinkedList(ListNode pHead) {
         while (pHead != null) {
-            System.out.print(pHead.value);
+            System.out.print(pHead.val);
             if (pHead.next != null)
                 System.out.print(" -> ");
             pHead = pHead.next;
