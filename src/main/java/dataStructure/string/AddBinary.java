@@ -24,7 +24,7 @@ import org.junit.Test;
  */
 public class AddBinary {
     
-    public String addBinary2(String a, String b) {
+    public String addBinary(String a, String b) {
         int res = 0;
         int i = a.length() - 1, j = b.length() - 1;
         String result = "";
@@ -67,10 +67,6 @@ public class AddBinary {
             }
         }
         return result;
-    }
-    
-    public String addBinary(String a, String b) {
-        return null;
     }
     
     @Test
