@@ -40,35 +40,33 @@ import org.junit.Test;
 public class ArrangeCoins {
     
     public int arrangeCoins(int n) {
-        int last = (n - 1) / 2;
-        int sum = 0, count = 0;
-        for (int i = last; i > 0; i--) {
-            sum += i;
-            count++;
-        }
-        if (n - sum == 0)
-            count++;
-        return count;
-    }
-    
-    public int arrangeCoins2(int n) {
-        int m = (int) Math.sqrt(2 * n);
-        return m;
-        
+        long d = n;
+        double c = Math.sqrt(2 * d);
+        long m = (long) c;
+        long k = (m * m + m) / 2;
+        return k > n ? (int) --m : (int) m;
     }
     
     @Test
     public void test1() {
         for (int i = 0; i < 70; i++) {
-            System.out.println(" i = " + i + ", res = " + arrangeCoins2(i));
+            int res = arrangeCoins(i);
+            System.out.println(" i = " + i + ", res = " + res);
         }
     }
     
     @Test
     public void test2() {
-        int n = 62;
-        int m = (int) Math.sqrt(2 * n) - 1;
-        System.out.println(" n = " + n + " m = " + m);
+        int n = 1804289383;
+        System.out.println(arrangeCoins(n));
+    }
+    
+    @Test
+    public void test3() {
+        int sum = 0;
+        for (int i = 0; i <= 49; i++)
+            sum += i;
+        System.out.println("sum = " + sum);
     }
     
 }
