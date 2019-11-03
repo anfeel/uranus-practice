@@ -8,25 +8,26 @@ import org.junit.Test;
  * @version $Id: BuildBST.java, v 0.1 2019年9月26日 下午5:35:42 prd-fuy Exp $
  */
 public class BuildBST {
-    
-    public TreeNode buildBST(int[] arr, int start, int end) {
-        if (start > end)
+
+    public TreeNode build(int[] nums) {
+        if (nums.length < 1) {
             return null;
-        if (start == end)
-            return new TreeNode(arr[start]);
-        TreeNode node = new TreeNode(arr[(start + end) / 2]);
-        node.left = buildBST(arr, start, ((start + end) / 2) - 1);
-        node.right = buildBST(arr, ((start + end) / 2) + 1, end);
+        }
+        return buildBST(nums, 0, nums.length - 1);
+    }
+
+    public TreeNode buildBST(int[] nums, int begin, int end) {
+        if (begin == end)
+            return new TreeNode(nums[begin]);
+        int i = (begin + end) / 2;
+        TreeNode node = new TreeNode(nums[i]);
+        if (begin <= i - 1)
+            node.left = buildBST(nums, begin, i - 1);
+        if (end >= i + 1)
+            node.right = buildBST(nums, i + 1, end);
         return node;
     }
-    
-    public TreeNode build(int[] arr) {
-        if (arr == null)
-            return null;
-        else
-            return buildBST(arr, 0, arr.length - 1);
-    }
-    
+
     @Test
     public void test1() {
         int[] arr = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -34,7 +35,7 @@ public class BuildBST {
         TraverseBinaryTree tree = new TraverseBinaryTree();
         tree.inOrderRecur(node);
     }
-    
+
     @Test
     public void test2() {
         System.out.println();

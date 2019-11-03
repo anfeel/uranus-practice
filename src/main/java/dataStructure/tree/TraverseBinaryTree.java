@@ -13,7 +13,7 @@ import org.junit.Test;
  * @version $Id: TraverseBinaryTree.java, v 0.1 2019年9月18日 下午12:31:04 prd-fuy Exp $
  */
 public class TraverseBinaryTree {
-    
+
     /**
      * 先序递归遍历
      * @param root
@@ -21,11 +21,12 @@ public class TraverseBinaryTree {
     public void preOrderRecur(TreeNode root) {
         if (root == null)
             return;
+
         System.out.printf(" %d ", root.val);
         preOrderRecur(root.left);
         preOrderRecur(root.right);
     }
-    
+
     /**
      * 先序非递归遍历
      * @param root
@@ -44,7 +45,7 @@ public class TraverseBinaryTree {
                 stack.push(node.left);
         }
     }
-    
+
     /**
      * 中序递归遍历
      * @param root
@@ -52,11 +53,12 @@ public class TraverseBinaryTree {
     public void inOrderRecur(TreeNode root) {
         if (root == null)
             return;
+
         inOrderRecur(root.left);
         System.out.printf(" %d ", root.val);
         inOrderRecur(root.right);
     }
-    
+
     /**
      * 中序非递归遍历
      * @param root
@@ -76,7 +78,7 @@ public class TraverseBinaryTree {
             }
         }
     }
-    
+
     /**
      * 后序递归遍历
      * @param root
@@ -88,7 +90,7 @@ public class TraverseBinaryTree {
         postOrderRecur(root.right);
         System.out.printf(" %d ", root.val);
     }
-    
+
     /**
      * 后序非递归遍历
      * 使用两个栈
@@ -114,7 +116,7 @@ public class TraverseBinaryTree {
             System.out.printf(" %d ", stack2.pop().val);
         }
     }
-    
+
     /**
      * 后序非递归遍历
      * 使用一个栈
@@ -136,10 +138,10 @@ public class TraverseBinaryTree {
                 System.out.printf(" %d ", stack.pop().val);
                 root = cur;
             }
-            
+
         }
     }
-    
+
     /**
      * 中序！神级！遍历
      * morris遍历，利用叶子节点的空指针存储节点信息
@@ -160,12 +162,12 @@ public class TraverseBinaryTree {
                 } else
                     cur2.right = cur1;
                 cur1 = cur2;
-                
+
             }
         }
-        
+
     }
-    
+
     @Test
     public void test() {
         TreeNode t1 = new TreeNode(1);
