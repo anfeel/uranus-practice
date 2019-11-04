@@ -72,6 +72,11 @@ public class AllOne {
                 node.next = cur;
                 cur.last = node;
                 this.head = node;
+            } else {
+                node.last = cur.last;
+                cur.last.next = node;
+                node.next = cur;
+                cur.last = node;
             }
         }
         
@@ -135,6 +140,7 @@ public class AllOne {
                     //若该节点的值等于value++后的值，则直接插入节点map
                     if (n.next.value == value) {
                         n.next.map.put(key, value);
+                        mapK2N.put(key, n.next);
                     }
                     //若该节点的值不等于value++后的值，则新增节点
                     else {
@@ -164,8 +170,15 @@ public class AllOne {
                 --value;
                 mapK2V.put(key, value);
                 node.map.remove(key);
-                this.doubleLinkedList.addNodeBefore(node, key, value);
-                this.doubleLinkedList.delNode(node, key);
+                if (node.last != null && node.last.value == value) {
+                    node.last.map.put(key, value);
+                    mapK2N.put(key, node.last);
+                    if (node.map.size() == 0)
+                        this.doubleLinkedList.delNode(node, key);
+                } else {
+                    this.doubleLinkedList.addNodeBefore(node, key, value);
+                    this.doubleLinkedList.delNode(node, key);
+                }
             }
         }
     }
@@ -225,6 +238,7 @@ public class AllOne {
         allOne.dec("a");
         allOne.dec("a");
         allOne.dec("a");
+        allOne.dec("a");
         System.out.print(" MaxKey = " + allOne.getMaxKey());
         System.out.print(" MinKey = " + allOne.getMinKey());
         allOne.inc("b");
@@ -254,6 +268,58 @@ public class AllOne {
         allOne.inc("c");
         allOne.inc("a");
         allOne.inc("e");
+        System.out.print(" MaxKey = " + allOne.getMaxKey());
+        System.out.print(" MinKey = " + allOne.getMinKey());
+        System.out.println();
+    }
+    
+    @Test
+    public void test5() {
+        AllOne allOne = new AllOne();
+        allOne.inc("a");
+        allOne.inc("b");
+        allOne.inc("b");
+        allOne.inc("b");
+        allOne.inc("b");
+        allOne.dec("b");
+        allOne.dec("b");
+        System.out.print(" MaxKey = " + allOne.getMaxKey());
+        System.out.print(" MinKey = " + allOne.getMinKey());
+        System.out.println();
+    }
+    
+    @Test
+    public void test6() {
+        AllOne allOne = new AllOne();
+        allOne.inc("hello");
+        allOne.inc("goodbye");
+        allOne.inc("hello");
+        allOne.inc("hello");
+        System.out.print(" MaxKey = " + allOne.getMaxKey());
+        allOne.inc("leet");
+        allOne.inc("code");
+        allOne.inc("leet");
+        allOne.dec("hello");
+        allOne.inc("leet");
+        allOne.inc("code");
+        allOne.inc("code");
+        System.out.print(" MaxKey = " + allOne.getMaxKey());
+        System.out.println();
+    }
+    
+    @Test
+    public void test7() {
+        AllOne allOne = new AllOne();
+        allOne.inc("a");
+        allOne.inc("b");
+        allOne.inc("b");
+        allOne.inc("c");
+        allOne.inc("c");
+        allOne.inc("c");
+        allOne.dec("b");
+        allOne.dec("b");
+        System.out.print(" MinKey = " + allOne.getMinKey());
+        allOne.dec("a");
         System.out.print(" MaxKey = " + allOne.getMaxKey());
         System.out.print(" MinKey = " + allOne.getMinKey());
         System.out.println();
