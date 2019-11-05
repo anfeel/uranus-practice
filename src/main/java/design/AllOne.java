@@ -43,7 +43,7 @@ public class AllOne {
         public Node head;
         public Node tail;
         
-        public void addNodeAfter(Node cur, String key, int value) {
+        public Node addNodeAfter(Node cur, String key, int value) {
             HashMap<String, Integer> map = new HashMap<>();
             map.put(key, value);
             Node node = new Node(value, map);
@@ -61,6 +61,7 @@ public class AllOne {
                 cur.next.last = node;
                 cur.next = node;
             }
+            return node;
         }
         
         public void addNodeBefore(Node cur, String key, int value) {
@@ -80,7 +81,11 @@ public class AllOne {
             }
         }
         
-        public void delNode(Node node, String key) {
+        public void delNode(Node node) {
+            if (node != this.head && node != this.tail) {
+                node.last.next = node.next;
+                node.next.last = node.last;
+            }
             if (node == this.head) {
                 this.head = node.next;
                 if (this.head != null)
@@ -91,6 +96,7 @@ public class AllOne {
                 if (this.tail != null)
                     this.tail.next = null;
             }
+            
         }
         
     }
@@ -128,30 +134,20 @@ public class AllOne {
             Node n = mapK2N.get(key);
             value++;
             mapK2V.put(key, value);
-            //若node只有一个字符串，则只更改value，不移动节点
-            if (n.map.size() == 1) {
-                n.value++;
-                n.map.put(key, value);
-                mapK2N.put(key, n);
-            } else {
-                n.map.remove(key);
-                //若key对应的node后有节点
-                if (n.next != null) {
-                    //若该节点的值等于value++后的值，则直接插入节点map
-                    if (n.next.value == value) {
-                        n.next.map.put(key, value);
-                        mapK2N.put(key, n.next);
-                    }
-                    //若该节点的值不等于value++后的值，则新增节点
-                    else {
-                        this.doubleLinkedList.addNodeAfter(n, key, value);
-                    }
-                }
-                //若key对应的node后没有节点，则新增tail节点
-                else {
-                    this.doubleLinkedList.addNodeAfter(n, key, value);
-                }
+            //若key对应的node后有节点，并且该节点的值等于value++后的值，则直接插入节点map
+            if (n.next != null && n.next.value == value) {
+                n.next.map.put(key, value);
+                mapK2N.put(key, n.next);
             }
+            //若key对应的node后没有节点，或者若该节点的值不等于value++后的值，则新增节点
+            else {
+                Node node = this.doubleLinkedList.addNodeAfter(n, key, value);
+                mapK2N.put(key, node);
+            }
+            //原node需删除key，若删除之后map为空，则删除node
+            n.map.remove(key);
+            if (n.map.size() == 0)
+                this.doubleLinkedList.delNode(n);
         }
     }
     
@@ -161,11 +157,12 @@ public class AllOne {
             int value = mapK2V.get(key);
             Node node = mapK2N.get(key);
             if (value == 1) {
-                this.doubleLinkedList.delNode(node, key);
                 mapK2V.remove(key);
                 node.map.remove(key);
-                if (node.map.size() == 0)
+                if (node.map.size() == 0) {
+                    this.doubleLinkedList.delNode(node);
                     mapK2N.remove(key);
+                }
             } else {
                 --value;
                 mapK2V.put(key, value);
@@ -174,10 +171,10 @@ public class AllOne {
                     node.last.map.put(key, value);
                     mapK2N.put(key, node.last);
                     if (node.map.size() == 0)
-                        this.doubleLinkedList.delNode(node, key);
+                        this.doubleLinkedList.delNode(node);
                 } else {
                     this.doubleLinkedList.addNodeBefore(node, key, value);
-                    this.doubleLinkedList.delNode(node, key);
+                    this.doubleLinkedList.delNode(node);
                 }
             }
         }
@@ -322,6 +319,26 @@ public class AllOne {
         allOne.dec("a");
         System.out.print(" MaxKey = " + allOne.getMaxKey());
         System.out.print(" MinKey = " + allOne.getMinKey());
+        System.out.println();
+    }
+    
+    @Test
+    public void test8() {
+        AllOne allOne = new AllOne();
+        allOne.inc("a");
+        allOne.inc("b");
+        allOne.inc("c");
+        allOne.inc("d");
+        allOne.inc("a");
+        allOne.inc("b");
+        allOne.inc("c");
+        allOne.inc("d");
+        allOne.inc("c");
+        allOne.inc("d");
+        allOne.inc("d");
+        allOne.inc("a");
+        System.out.print(" MinKey = " + allOne.getMinKey());
+        System.out.print(" MaxKey = " + allOne.getMaxKey());
         System.out.println();
     }
 }
