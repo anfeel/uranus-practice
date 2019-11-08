@@ -98,11 +98,16 @@ public class LongestSubstring {
     
     @Test
     public void test5() {
-        System.out.println(longestSubstring("abcdaaabcccbccccdaa", 3));
+        System.out.println(longestSubstring("abcdaaacccbccccdaa", 3));
     }
     
     @Test
     public void test6() {
+        System.out.println(longestSubstring("abcdaaabcccbccccdaa", 3));
+    }
+    
+    @Test
+    public void test7() {
         System.out.println(longestSubstring("        ", 3));
     }
 }

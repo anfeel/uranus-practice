@@ -8,7 +8,7 @@ import org.junit.Test;
  * @version $Id: QuickSort.java, v 0.1 2019年9月21日 下午1:29:25 anfeel Exp $
  */
 public class QuickSort {
-
+    
     public int[] quickSort(int[] arr, int start, int end) {
         int pivot = arr[start];
         int i = start;
@@ -32,7 +32,7 @@ public class QuickSort {
             quickSort(arr, j + 1, end);
         return arr;
     }
-
+    
     @Test
     public void test1() {
         int[] arr = { 72, 1, 23, 48, 46, 88, 39, 4, 78, 88, 12 };

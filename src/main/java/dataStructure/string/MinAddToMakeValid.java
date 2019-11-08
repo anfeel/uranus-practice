@@ -1,4 +1,4 @@
-package algorithm;
+package dataStructure.string;
 
 import org.junit.Test;
 
