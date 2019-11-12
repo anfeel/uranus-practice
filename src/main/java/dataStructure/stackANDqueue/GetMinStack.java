@@ -42,6 +42,12 @@ public class GetMinStack {
         return i;
     }
     
+    public int top() {
+        if (stackData.size() <= 0)
+            return 0;
+        return this.stackData.peek();
+    }
+    
     public int getMin() {
         if (this.stackData.size() > 0) {
             return this.stackMin.peek();
@@ -67,5 +73,14 @@ public class GetMinStack {
         minStack.push(2);
         minStack.push(1);
         System.out.println("Now the Min : " + minStack.getMin());
+    }
+    
+    @Test
+    public void test2() {
+        GetMinStack minStack = new GetMinStack();
+        minStack.push(-1);
+        System.out.println(minStack.top());
+        System.out.println(minStack.getMin());
+        
     }
 }
