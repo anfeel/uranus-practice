@@ -101,4 +101,24 @@ public class MaxSubArray {
     public void test7() {
         Assert.assertEquals(1, maxSubArray(new int[] { -1, 1, -1, -3, -1, -2, -4 }));
     }
+
+    @Test
+    public void test8() {
+        Assert.assertEquals(1, maxSubArray(new int[] { -1, 1 }));
+    }
+
+    @Test
+    public void test9() {
+        Assert.assertEquals(-1, maxSubArray(new int[] { -1 }));
+    }
+
+    @Test
+    public void testa() {
+        Assert.assertEquals(0, maxSubArray(new int[] {}));
+    }
+
+    @Test
+    public void testb() {
+        Assert.assertEquals(6, maxSubArray(new int[] { -2, 1, -3, 4, -1, 2, 1, -5, 4, -2 }));
+    }
 }
