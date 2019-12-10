@@ -51,7 +51,7 @@ public class MaxSubArray {
                 sumMax = sum;
                 continue;
             }
-            if ((nums[i] > 0 && sum < 0) || (nums[i] > sum && !b)) {
+            if ((nums[i] > 0 && sum < 0) || (nums[i] > sum && !b) || (nums[i] < 0 && nums[i] > sum)) {
                 sum = nums[i];
                 sumMax = sum;
             } else if ((nums[i] > 0 || (nums[i] < 0 && i + 1 < nums.length && nums[i + 1] + nums[i] > 0)) && b) {
@@ -120,5 +120,10 @@ public class MaxSubArray {
     @Test
     public void testb() {
         Assert.assertEquals(6, maxSubArray(new int[] { -2, 1, -3, 4, -1, 2, 1, -5, 4, -2 }));
+    }
+
+    @Test
+    public void testc() {
+        Assert.assertEquals(-1, maxSubArray(new int[] { -2, -1 }));
     }
 }
