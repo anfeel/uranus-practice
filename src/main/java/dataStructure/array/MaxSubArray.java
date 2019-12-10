@@ -51,14 +51,17 @@ public class MaxSubArray {
                 sumMax = sum;
                 continue;
             }
-            if ((nums[i] > 0 && sum < 0) || (nums[i] > sum && !b) || (nums[i] < 0 && nums[i] > sum)) {
+            if ((nums[i] > 0 && sum < 0) || (nums[i] > 0 && !b) || (nums[i] <= 0 && nums[i] > sum)) {
                 sum = nums[i];
-                sumMax = sum;
+                if (sum > sumMax)
+                    sumMax = sum;
+                if (!b)
+                    b = true;
             } else if ((nums[i] > 0 || (nums[i] < 0 && i + 1 < nums.length && nums[i + 1] + nums[i] > 0)) && b) {
                 sum += nums[i];
                 if (i == nums.length - 1 && sum > sumMax)
                     sumMax = sum;
-            } else if (nums[i] < 0 && (nums[i] + sum < 0 || (i + 1 < nums.length && nums[i + 1] + nums[i] < 0)) && b) {
+            } else if (nums[i] < 0 && (nums[i] + sum < 0 || (i + 1 < nums.length && nums[i + 1] + nums[i] <= 0)) && b) {
                 b = false;
                 if (sum > sumMax)
                     sumMax = sum;
@@ -78,8 +81,18 @@ public class MaxSubArray {
     }
 
     @Test
+    public void test21() {
+        Assert.assertEquals(7, maxSubArray(new int[] { -2, 1, -3, 4, -1, 2, 1, 0, -4, 5 }));
+    }
+
+    @Test
     public void test3() {
         Assert.assertEquals(15, maxSubArray(new int[] { 5, 4, 3, 2, 1, -1, -2, -3, -4, -5 }));
+    }
+
+    @Test
+    public void test31() {
+        Assert.assertEquals(15, maxSubArray(new int[] { 5, 0, 4, 3, 2, 1, -1, -2, -3, -4, -5 }));
     }
 
     @Test
@@ -126,4 +139,45 @@ public class MaxSubArray {
     public void testc() {
         Assert.assertEquals(-1, maxSubArray(new int[] { -2, -1 }));
     }
+
+    @Test
+    public void testd() {
+        Assert.assertEquals(0, maxSubArray(new int[] { -1, 0 }));
+    }
+
+    @Test
+    public void teste() {
+        Assert.assertEquals(1, maxSubArray(new int[] { 1, -1, 1 }));
+    }
+
+    @Test
+    public void testf() {
+        Assert.assertEquals(4, maxSubArray(new int[] { 1, -3, 4 }));
+    }
+
+    @Test
+    public void testg() {
+        Assert.assertEquals(4, maxSubArray(new int[] { 4, -3, 1 }));
+    }
+
+    @Test
+    public void testh() {
+        Assert.assertEquals(6, maxSubArray(new int[] { 4, -3, 5 }));
+    }
+
+    @Test
+    public void testi() {
+        Assert.assertEquals(21, maxSubArray(new int[] { 8, -19, 5, -4, 20 }));
+    }
+
+    @Test
+    public void testj() {
+        Assert.assertEquals(-1, maxSubArray(new int[] { -2, -3, -1 }));
+    }
+
+    @Test
+    public void testk() {
+        Assert.assertEquals(6, maxSubArray(new int[] { 1, 2, -1, -2, 2, 1, -2, 1, 4, -5, 4 }));
+    }
+
 }
