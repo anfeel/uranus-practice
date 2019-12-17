@@ -36,6 +36,7 @@ import org.junit.Test;
  * @version $Id: HasCycle.java, v 0.1 2019年12月17日 上午10:51:56 anfeel Exp $
  */
 public class HasCycle {
+
     public boolean hasCycle(ListNode head) {
         Set<ListNode> set = new HashSet<>();
         while (head != null) {
@@ -89,5 +90,13 @@ public class HasCycle {
         p1_2.next = p1_3;
         p1_3.next = p1_1;
         Assert.assertTrue(hasCycle(p1_1));
+    }
+
+    @Test
+    public void test6() {
+        ListNode p1_1 = new ListNode(1);
+        ListNode p1_2 = new ListNode(2);
+        p1_1.next = p1_2;
+        Assert.assertFalse(hasCycle(p1_1));
     }
 }
