@@ -99,7 +99,56 @@ public class Exist {
         return false;
     }
 
+    private int[][] vector = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
+
     public boolean exist(char[][] board, String word) {
+        if (word.isEmpty())
+            return true;
+        int row = board.length;
+        if (row == 0)
+            return false;
+        char[] arr = word.toCharArray();
+        boolean[][] posStatus = new boolean[row][board[0].length];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == arr[0]) {
+                    posStatus[i][j] = true;
+                    boolean b = wordSearch(i, j, posStatus, board, arr, 1);
+                    if (b)
+                        return true;
+                    else {
+                        posStatus[i][j] = false;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean wordSearch(int curR, int curC, boolean[][] posStatus, char[][] board, char[] arr, int len) {
+        if (len == arr.length)
+            return true;
+
+        for (int i = 0; i < 4; i++) {
+            int nextR = curR + vector[i][0];
+            int nextC = curC + vector[i][1];
+            if (nextR < 0 || nextR >= board.length || nextC < 0 || nextC >= board[0].length)
+                continue;
+            if (board[nextR][nextC] == arr[len] && posStatus[nextR][nextC] != true) {
+                posStatus[nextR][nextC] = true;
+                boolean b = wordSearch(nextR, nextC, posStatus, board, arr, len + 1);
+                if (b)
+                    return true;
+                else {
+                    posStatus[nextR][nextC] = false;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean exist2(char[][] board, String word) {
         if (word.isEmpty())
             return true;
         HashMap<Character, List<int[]>> charToPosMap = new HashMap<>();
