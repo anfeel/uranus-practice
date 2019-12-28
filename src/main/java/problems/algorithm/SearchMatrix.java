@@ -39,14 +39,14 @@ public class SearchMatrix {
     public boolean searchMatrix(int[][] matrix, int target) {
         if (matrix.length < 1)
             return false;
-        int i = 0, j = matrix[0].length - 1;
-        while (i < matrix.length && j >= 0) {
+        int i = matrix.length - 1, j = 0;
+        while (i >= 0 && j < matrix[0].length) {
             if (matrix[i][j] == target)
                 return true;
             else if (matrix[i][j] > target)
-                j--;
+                i--;
             else if (matrix[i][j] < target)
-                i++;
+                j++;
         }
         return false;
     }
