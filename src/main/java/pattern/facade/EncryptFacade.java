@@ -5,7 +5,7 @@ package pattern.facade;
  * @author anfeel
  * @version $Id: EncryptFacade.java, v 0.1 2020年1月7日 上午10:40:07 anfeel Exp $
  */
-public class EncryptFacade {
+public class EncryptFacade extends AbstractEncryptFacade {
 
     private FileReader    fileReader;
     private FileWriter    fileWriter;

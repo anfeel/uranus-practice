@@ -8,7 +8,9 @@ package pattern.facade;
 public class FacadeSample {
 
     public static void main(String[] args) {
-        EncryptFacade encryptFacade = new EncryptFacade();
+        AbstractEncryptFacade encryptFacade = new NewEncryptFacade();
         encryptFacade.FileEncrypt("111", "333");
+        AbstractEncryptFacade encryptFacade2 = new EncryptFacade();
+        encryptFacade2.FileEncrypt("111", "333");
     }
 }
