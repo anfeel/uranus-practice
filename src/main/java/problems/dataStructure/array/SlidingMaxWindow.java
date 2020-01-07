@@ -108,13 +108,25 @@ public class SlidingMaxWindow {
     }
 
     public int[] maxSlidingWindow(int[] nums, int k) {
-        if (nums.length < 1)
-            return null;
-        return null;
+        if (nums.length == 0 || nums.length < k)
+            return new int[] {};
+        Deque<Integer> deque = new LinkedList<Integer>();
+        int[] res = new int[nums.length - k + 1];
+        for (int i = 0; i < nums.length; i++) {
+            while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
+                deque.pollLast();
+            }
+            deque.addLast(i);
+            if (deque.peekFirst() < i + 1 - k)
+                deque.pollFirst();
+            if (i + 1 >= k) {
+                res[i - k + 1] = nums[deque.peekFirst()];
+            }
+        }
+        return res;
     }
 
-    @Test
-    public void test1() {
+    public void test() {
         int[] array = { 4, 3, 5, 4, 3, 3, 6, 7 };
         int window = 3;
         SlidingMaxWindow slidingMaxWindow = new SlidingMaxWindow();
@@ -127,6 +139,48 @@ public class SlidingMaxWindow {
         int[] output2 = slidingMaxWindow.getMaxValueArray2();
         for (int i = 0; i < output2.length; i++) {
             System.out.println("output [" + i + "] : " + output2[i]);
+        }
+    }
+
+    @Test
+    public void test1() {
+        System.out.println();
+        int[] array = { 4, 3, 5, 4, 3, 3, 6, 7 };
+        for (int i = 0; i < array.length; i++) {
+            System.out.printf(" %d ", array[i]);
+        }
+        int[] res = maxSlidingWindow(array, 3);
+        System.out.println();
+        for (int i = 0; i < res.length; i++) {
+            System.out.printf(" %d ", res[i]);
+        }
+    }
+
+    @Test
+    public void test2() {
+        System.out.println();
+        int[] array = { 1, 3, -1, -3, 5, 3, 6, 7 };
+        for (int i = 0; i < array.length; i++) {
+            System.out.printf(" %d ", array[i]);
+        }
+        int[] res = maxSlidingWindow(array, 3);
+        System.out.println();
+        for (int i = 0; i < res.length; i++) {
+            System.out.printf(" %d ", res[i]);
+        }
+    }
+
+    @Test
+    public void test3() {
+        System.out.println();
+        int[] array = {};
+        for (int i = 0; i < array.length; i++) {
+            System.out.printf(" %d ", array[i]);
+        }
+        int[] res = maxSlidingWindow(array, 0);
+        System.out.println();
+        for (int i = 0; i < res.length; i++) {
+            System.out.printf(" %d ", res[i]);
         }
     }
 }
