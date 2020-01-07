@@ -1,4 +1,4 @@
-package pattern.observer;
+package pattern.observer.base;
 
 /**
  * 
@@ -8,7 +8,7 @@ package pattern.observer;
 public class ConcreteSubject extends Subject {
 
     /** 
-     * @see pattern.observer.Subject#inform()
+     * @see pattern.observer.base.Subject#inform()
      */
     @Override
     public void inform() {

@@ -1,4 +1,4 @@
-package pattern.observer;
+package pattern.observer.base;
 
 /**
  * 
@@ -17,7 +17,7 @@ public class ConcreteObserver implements Observer {
     }
 
     /** 
-     * @see pattern.observer.Observer#update()
+     * @see pattern.observer.base.Observer#update()
      */
     @Override
     public void update() {

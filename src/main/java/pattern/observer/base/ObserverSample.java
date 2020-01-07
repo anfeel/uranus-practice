@@ -1,4 +1,4 @@
-package pattern.observer;
+package pattern.observer.base;
 
 /**
  * 
