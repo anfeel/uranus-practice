@@ -14,7 +14,8 @@ public class MySingleton {
 
     private int                num;
 
-    private static MySingleton mySingleton = new MySingleton();
+    //why set private instance to null ?
+    private static MySingleton mySingleton = null;
 
     private MySingleton() {
         num = RandomUtils.nextInt();
@@ -25,13 +26,8 @@ public class MySingleton {
     }
 
     public static MySingleton getInstance() {
+        if (mySingleton == null)
+            mySingleton = new MySingleton();
         return mySingleton;
-    }
-
-    public static void main(String[] args) {
-        MySingleton mySingleton = MySingleton.getInstance();
-        for (int i = 0; i <= 4; i++) {
-            System.out.println(mySingleton.getNum());
-        }
     }
 }
