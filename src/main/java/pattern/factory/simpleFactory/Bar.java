@@ -1,10 +1,11 @@
-package pattern.factory.simple;
+package pattern.factory.simpleFactory;
 
 public class Bar implements Chart {
 
-    public Bar(){
+    public Bar() {
         this.display();
     }
+
     @Override
     public void display() {
         System.out.println("Bar");

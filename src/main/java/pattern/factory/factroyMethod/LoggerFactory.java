@@ -1,4 +1,4 @@
-package pattern.factory.method;
+package pattern.factory.factroyMethod;
 
 public interface LoggerFactory {
 

@@ -1,4 +1,4 @@
-package pattern.factory.simple;
+package pattern.factory.simpleFactory;
 
 public class ChartFactory {
     public static Chart getChart(String type) {

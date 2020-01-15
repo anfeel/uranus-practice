@@ -1,4 +1,4 @@
-package pattern.factory.simple;
+package pattern.factory.simpleFactory;
 
 public interface Chart {
     void display();
