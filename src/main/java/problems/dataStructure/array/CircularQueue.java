@@ -46,6 +46,8 @@ public class CircularQueue {
     }
 
     public int getLength() {
-        return rear >= front ? rear - front : rear + maxSize - front;
+//        return rear >= front ? rear - front : rear + maxSize - front;
+        return (rear + maxSize - front) % maxSize;
     }
+
 }
