@@ -11,6 +11,19 @@ public class CircularQueue {
     private int rear;
     private int[] array;
 
+    public static void main(String[] args) {
+        CircularQueue queue = new CircularQueue(5);
+        queue.enQueue(1);
+        queue.enQueue(2);
+        queue.enQueue(3);
+        queue.enQueue(4);
+        System.out.println(queue.getLength());
+        queue.deQueue();
+        queue.enQueue(5);
+        queue.enQueue(6);
+        queue.headQueue();
+    }
+
     public CircularQueue(int size) {
         this.maxSize = size;
         array = new int[size];
@@ -19,15 +32,11 @@ public class CircularQueue {
     }
 
     public boolean isFull() {
-        if ((rear + 1) % maxSize == front)
-            return true;
-        return false;
+        return (rear + 1) % maxSize == front;
     }
 
     public boolean isEmpty() {
-        if (rear == front)
-            return true;
-        return false;
+        return rear == front;
     }
 
     public void enQueue(int e) {
@@ -48,6 +57,20 @@ public class CircularQueue {
     public int getLength() {
 //        return rear >= front ? rear - front : rear + maxSize - front;
         return (rear + maxSize - front) % maxSize;
+    }
+
+    public void showQueue() {
+        if (isEmpty())
+            throw new RuntimeException("队列空");
+        for (int i = front; i < front + getLength(); i++) {
+            System.out.printf("array[%d]=%d \n", i % maxSize, array[i % maxSize]);
+        }
+    }
+
+    public void headQueue() {
+        if (isEmpty())
+            throw new RuntimeException("队列空");
+        System.out.printf("head = %d", array[front]);
     }
 
 }
