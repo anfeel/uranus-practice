@@ -10,7 +10,7 @@ import org.junit.Test;
 public class ShellSort {
 
     public void shell(int[] arr) {
-        for (int gap = arr.length; gap > 0; gap /= 2) {
+        for (int gap = arr.length / 2; gap > 0; gap /= 2) {
             for (int i = gap; i < arr.length; i++) {
                 int tmp = 0;
                 for (int j = i - gap; j >= 0; j -= gap) {
@@ -24,6 +24,22 @@ public class ShellSort {
         }
     }
 
+    public void shell2(int[] arr) {
+        for (int gap = arr.length / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < arr.length; i++) {
+                int insertIndex = i;
+                int insertVal = arr[insertIndex];
+                if (arr[insertIndex] < arr[insertIndex - gap]) {
+                    while (insertIndex - gap >= 0 && insertVal < arr[insertIndex - gap]) {
+                        arr[insertIndex] = arr[insertIndex - gap];
+                        insertIndex -= gap;
+                    }
+                    arr[insertIndex] = insertVal;
+                }
+            }
+        }
+    }
+
     @Test
     public void test1() {
         int[] arr = {3, 1, 8, 0, 4, 6, 9, 5, 2};
@@ -31,7 +47,7 @@ public class ShellSort {
             System.out.printf(" %d ", arr[i]);
         }
         System.out.println();
-        shell(arr);
+        shell2(arr);
         for (int i = 0; i < arr.length; i++) {
             System.out.printf(" %d ", arr[i]);
         }
@@ -44,7 +60,7 @@ public class ShellSort {
             arr[i] = (int) (Math.random() * 800000);
         }
         System.out.println("before sorting :" + System.currentTimeMillis());
-        shell(arr);
+        shell2(arr);
         System.out.println("after sorting :" + System.currentTimeMillis());
     }
 }
