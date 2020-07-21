@@ -3,22 +3,24 @@ package problems.algorithm.sort;
 import org.junit.Test;
 
 /**
- * 选择排序
+ * 希尔排序
  * @author anfeel
- * @version $ Id:SelectSort, v 0.1 2020年07月17日 9:44 anfeel Exp $
+ * @version $ Id:ShellSort, v 0.1 2020年07月21日 8:55 anfeel Exp $
  */
-public class SelectSort {
-    public void select(int[] arr) {
-        for (int i = 0; i < arr.length - 1; i++) {
-            int min = arr[i], pos = i;
-            for (int j = i + 1; j < arr.length; j++) {
-                if (arr[j] < min) {
-                    min = arr[j];
-                    pos = j;
+public class ShellSort {
+
+    public void shell(int[] arr) {
+        for (int gap = arr.length; gap > 0; gap /= 2) {
+            for (int i = gap; i < arr.length; i++) {
+                int tmp = 0;
+                for (int j = i - gap; j >= 0; j -= gap) {
+                    if (arr[j] > arr[j + gap]) {
+                        tmp = arr[j];
+                        arr[j] = arr[j + gap];
+                        arr[j + gap] = tmp;
+                    }
                 }
             }
-            arr[pos] = arr[i];
-            arr[i] = min;
         }
     }
 
@@ -29,7 +31,7 @@ public class SelectSort {
             System.out.printf(" %d ", arr[i]);
         }
         System.out.println();
-        select(arr);
+        shell(arr);
         for (int i = 0; i < arr.length; i++) {
             System.out.printf(" %d ", arr[i]);
         }
@@ -42,7 +44,7 @@ public class SelectSort {
             arr[i] = (int) (Math.random() * 800000);
         }
         System.out.println("before sorting :" + System.currentTimeMillis());
-        select(arr);
+        shell(arr);
         System.out.println("after sorting :" + System.currentTimeMillis());
     }
 }
