@@ -4,20 +4,22 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Given a binary tree, you need to compute the length of the diameter of the tree.
- * The diameter of a binary tree is the length of the longest path between any two nodes in a tree.
- * This path may or may not pass through the root.
  *
- * Example:
- * Given a binary tree
- *           1
- *          / \
- *         2   3
- *        / \
- *       4   5
- * Return 3, which is the length of the path [4,2,1,3] or [5,2,1,3].
- *
- * Note: The length of path between two nodes is represented by the number of edges between them.
+ 给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过也可能不穿过根结点。
+
+  
+
+ 示例 :
+ 给定二叉树
+
+ 1
+ / \
+ 2   3
+ / \
+ 4   5
+ 返回 3, 它的长度是路径 [4,2,1,3] 或者 [5,2,1,3]。
+
+ 注意：两结点之间的路径长度是以它们之间边的数目表示。
  *
  * 来源：力扣（LeetCode）
  * 链接：https://leetcode-cn.com/problems/diameter-of-binary-tree
@@ -26,18 +28,26 @@ import org.junit.Test;
  * @version $ Id:DiameterOfBinaryTree, v 0.1 2020年01月18日 14:35 anfeel Exp $
  */
 public class DiameterOfBinaryTree {
+
+    private int diameter = 0;
+
     public int diameterOfBinaryTree(TreeNode root) {
-        if (root == null)
+        if (root == null || (root.left == null && root.right == null))
             return 0;
-        return getDepth(1, root.left) + getDepth(1, root.right);
+        int depth = getDepth(root);
+        return diameter;
     }
 
-    public int getDepth(int curDepth, TreeNode root) {
+    public int getDepth(TreeNode root) {
         if (root == null)
-            return curDepth - 1;
-        int ld = getDepth(curDepth + 1, root.left);
-        int rd = getDepth(curDepth + 1, root.right);
-        return ld > rd ? ld : rd;
+            return 0;
+        //左子树的高度
+        int left = root.left != null ? getDepth(root.left) + 1 : 0;
+        //右子树的高度
+        int right = root.right != null ? getDepth(root.right) + 1 : 0;
+        int depth = Math.max(left, right);
+        diameter = Math.max(diameter, left + right);
+        return depth;
     }
 
     @Test
@@ -133,5 +143,13 @@ public class DiameterOfBinaryTree {
         t13.right = t17;
         t15.left = t18;
         Assert.assertEquals(8, diameterOfBinaryTree(t1));
+    }
+
+    @Test
+    public void test7() {
+        TreeNode t1 = new TreeNode(1);
+        TreeNode t2 = new TreeNode(2);
+        t1.left = t2;
+        Assert.assertEquals(1, diameterOfBinaryTree(t1));
     }
 }
