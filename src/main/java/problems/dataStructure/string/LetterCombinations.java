@@ -35,7 +35,7 @@ public class LetterCombinations {
                 {'g', 'h', 'i'},
                 {'j', 'k', 'l'},
                 {'m', 'n', 'o'},
-                {'p', 'q', 'r', 'r'},
+                {'p', 'q', 'r', 's'},
                 {'t', 'u', 'v'},
                 {'w', 'x', 'y', 'z'}};
         int[] arr = new int[digits.length()];
@@ -70,6 +70,7 @@ public class LetterCombinations {
                 if (i == arr.length - 1 && j == word[arr[i] - 2].length - 1)
                     break;
             }
+            break;
         }
     }
 
@@ -112,6 +113,24 @@ public class LetterCombinations {
     @Test
     public void test5() {
         List<String> res = letterCombinations("2345");
+        for (String str : res
+        ) {
+            System.out.println(str);
+        }
+    }
+
+    @Test
+    public void test6() {
+        List<String> res = letterCombinations("27");
+        for (String str : res
+        ) {
+            System.out.println(str);
+        }
+    }
+
+    @Test
+    public void test7() {
+        List<String> res = letterCombinations("7");
         for (String str : res
         ) {
             System.out.println(str);
