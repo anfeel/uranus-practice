@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * 给定一个机票的字符串二维数组 [from, to]，子数组中的两个成员分别表示飞机出发和降落的机场地点，对该行程进行重新规划排序。所有这些机票都属于一个从 JFK（肯尼迪国际机场）出发的先生，所以该行程必须从 JFK 开始。
@@ -32,12 +33,62 @@ import java.util.List;
  * @version $ Id:FindItinerary, v 0.1 2020年08月27日 7:39 anfeel Exp $
  */
 public class FindItinerary {
+
+
+    /**
+     * 第一种思路：先查找当前降落点字母顺序最小的航班，若安排失败，则将该航班在当前层次置为不可安排；
+     * @param tickets
+     * @return
+     */
     public List<String> findItinerary(List<List<String>> tickets) {
-        //设置状态数组boolean status[]:标识机票是否已加入排序
-        boolean[] status = new boolean[tickets.size()];
         List<String> res = new ArrayList<>();
         if (tickets.size() == 0)
             return res;
+        String begin = "JFK";
+        //Stack<String> stack: 记录已使用的机票
+        Stack<String> stack = new Stack<>();
+        stack.push(begin);
+        //boolean[] fail: 记录因安排行程失败的机票
+        List<boolean[]> list = new ArrayList<>();
+        //boolean[] status:标识机票是否已加入安排
+        findPath(begin, "", stack, new boolean[tickets.size()], tickets, res, new boolean[tickets.size()]);
+        return res;
+    }
+
+    public boolean findPath(String source, String last, Stack<String> stack, boolean[] status, List<List<String>> tickets, List<String> res, boolean[] fail) {
+        if (stack.size() == tickets.size() + 1) {
+            res.addAll(new ArrayList<>(stack));
+            return true;
+        }
+        for (int i = 0; i < tickets.size(); i++) {
+            List<String> curFlight = tickets.get(i);
+            if (!fail[i] && !status[i] && curFlight.get(0).equals(source)) {
+                String target = curFlight.get(1);
+                //查找当前字母
+                if (last == "" || last.compareToIgnoreCase(target) > 0) {
+                    last = target;
+                    stack.push(target);
+                    status[i] = true;
+                    boolean flag = findPath(target, last, stack, status, tickets, res, new boolean[tickets.size()]);
+                    if (!flag) {
+                        stack.pop();
+                        fail[i] = true;
+                        status[i] = false;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public List<String> findItinerary2(List<List<String>> tickets) {
+        List<String> res = new ArrayList<>();
+        if (tickets.size() == 0)
+            return res;
+        //设置状态数组boolean status[]:标识机票是否已加入排序
+        boolean[] status = new boolean[tickets.size()];
+        //设置路线栈stack<Integer> stack:标识已使用的航班
+        Stack<Integer> stack = new Stack<>();
         String begin = "JFK";
         res.add(begin);
         while (true) {
@@ -64,11 +115,14 @@ public class FindItinerary {
             if (cur != "") {
                 res.add(cur);
                 begin = cur;
-            } else
-                break;
+            } else {
+                if (res.size() == tickets.size() + 1)
+                    break;
+            }
         }
         return res;
     }
+
 
     /**
      * 输入: [["MUC", "LHR"], ["JFK", "MUC"], ["SFO", "SJC"], ["LHR", "SFO"]]
@@ -179,6 +233,25 @@ public class FindItinerary {
         List<String> flight2 = new ArrayList<>(Arrays.asList("JFK", "NRT"));
         List<String> flight3 = new ArrayList<>(Arrays.asList("NRT", "JFK"));
         List<List<String>> fly = new ArrayList<>(Arrays.asList(flight1, flight2, flight3));
+        List<String> res = findItinerary(fly);
+        for (String s : res) {
+            System.out.print(" " + s);
+        }
+    }
+
+    /**
+     * 输入: [["JFK","SHZ"],["JFK","SHA"],["SHZ","CHQ"],["CHQ","JFK"],["SHA","HAZ"],["HAZ","JFK"]]
+     * 输出: ["JFK","SHA","HAZ","JFK","SHZ","CHQ","JFK"]
+     */
+    @Test
+    public void test8() {
+        List<String> flight1 = new ArrayList<>(Arrays.asList("JFK", "SHZ"));
+        List<String> flight2 = new ArrayList<>(Arrays.asList("JFK", "SHA"));
+        List<String> flight3 = new ArrayList<>(Arrays.asList("SHZ", "CHQ"));
+        List<String> flight4 = new ArrayList<>(Arrays.asList("SHA", "HAZ"));
+        List<String> flight5 = new ArrayList<>(Arrays.asList("CHQ", "JFK"));
+        List<String> flight6 = new ArrayList<>(Arrays.asList("HAZ", "JFK"));
+        List<List<String>> fly = new ArrayList<>(Arrays.asList(flight1, flight2, flight3, flight4, flight5, flight6));
         List<String> res = findItinerary(fly);
         for (String s : res) {
             System.out.print(" " + s);
