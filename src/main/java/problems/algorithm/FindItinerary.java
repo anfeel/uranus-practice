@@ -36,11 +36,61 @@ public class FindItinerary {
 
 
     /**
-     * 第一种思路：先查找当前降落点字母顺序最小的航班，若安排失败，则将该航班在当前层次置为不可安排；
+     * 第二种思路：深度搜索出所有符合条件的路线，依次比较字母顺序
      * @param tickets
      * @return
      */
     public List<String> findItinerary(List<List<String>> tickets) {
+        List<String> res = new ArrayList<>();
+        if (tickets.size() == 0)
+            return res;
+        String begin = "JFK";
+        //Stack<String> stack: 记录已使用的机票
+        Stack<String> stack = new Stack<>();
+        stack.push(begin);
+        //boolean[] status:标识机票是否已加入安排
+        findFlight(begin, stack, new boolean[tickets.size()], tickets, res);
+        return res;
+    }
+
+    public void findFlight(String source, Stack<String> stack, boolean[] status, List<List<String>> tickets, List<String> res) {
+        if (stack.size() == tickets.size() + 1) {
+            if (res.size() == 0)
+                res.addAll(new ArrayList<>(stack));
+            else {
+                List<String> newList = new ArrayList<>(stack);
+                for (int i = 0; i < newList.size(); i++) {
+                    String ori = res.get(i);
+                    String cur = newList.get(i);
+                    if (cur.compareToIgnoreCase(ori) < 0) {
+                        res.clear();
+                        res.addAll(newList);
+                        break;
+                    } else if (cur.compareToIgnoreCase(ori) > 0)
+                        break;
+                }
+            }
+            return;
+        }
+        for (int i = 0; i < tickets.size(); i++) {
+            List<String> curFlight = tickets.get(i);
+            if (!status[i] && curFlight.get(0).equals(source)) {
+                String target = curFlight.get(1);
+                stack.push(target);
+                status[i] = true;
+                findFlight(target, stack, status, tickets, res);
+                stack.pop();
+                status[i] = false;
+            }
+        }
+    }
+
+    /**
+     * 第一种思路：先查找当前降落点字母顺序最小的航班，若安排失败，则将该航班在当前层次置为不可安排；
+     * @param tickets
+     * @return
+     */
+    public List<String> findItinerary3(List<List<String>> tickets) {
         List<String> res = new ArrayList<>();
         if (tickets.size() == 0)
             return res;
@@ -258,10 +308,51 @@ public class FindItinerary {
         }
     }
 
+
+    /**
+     * 输入: [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
+     * 输出: ["JFK","ATL","JFK","SFO","ATL","SFO"]
+     */
+    @Test
+    public void test9() {
+        List<String> flight1 = new ArrayList<>(Arrays.asList("JFK", "SFO"));
+        List<String> flight2 = new ArrayList<>(Arrays.asList("JFK", "ATL"));
+        List<String> flight3 = new ArrayList<>(Arrays.asList("SFO", "ATL"));
+        List<String> flight4 = new ArrayList<>(Arrays.asList("ATL", "JFK"));
+        List<String> flight5 = new ArrayList<>(Arrays.asList("ATL", "SFO"));
+        List<List<String>> fly = new ArrayList<>(Arrays.asList(flight1, flight2, flight3, flight4, flight5));
+        List<String> res = findItinerary(fly);
+        for (String s : res) {
+            System.out.print(" " + s);
+        }
+    }
+
     @Test
     public void testa() {
-        String a = "BC";
+        String a = "Ba";
         String b = "bc";
         System.out.println(a.compareToIgnoreCase(b));
+    }
+
+    @Test
+    public void testb() {
+        List<String> flight1 = new ArrayList<>(Arrays.asList("JFK", "SHZ", "CHQ"));
+        List<String> flight2 = new ArrayList<>(Arrays.asList("JFK", "SHA", "CHQ"));
+        compareStr(flight1, flight2);
+        for (String str : flight2
+        ) {
+            System.out.print(" " + str);
+        }
+    }
+
+    public void compareStr(List<String> flight1, List<String> flight2) {
+        for (int i = 0; i < flight2.size(); i++) {
+            String ori = flight1.get(i);
+            String cur = flight2.get(i);
+            if (ori.compareToIgnoreCase(cur) < 0) {
+                flight1 = flight2;
+                break;
+            }
+        }
     }
 }
