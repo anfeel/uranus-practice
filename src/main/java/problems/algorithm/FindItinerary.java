@@ -1,6 +1,9 @@
 package problems.algorithm;
 
+import org.junit.Test;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,12 +33,162 @@ import java.util.List;
  */
 public class FindItinerary {
     public List<String> findItinerary(List<List<String>> tickets) {
-        List<String> start = new ArrayList<>();
-        for (List<String> single : tickets
-        ) {
-            if (single.get(0) == "JFK")
-                start.addAll(single);
+        //设置状态数组boolean status[]:标识机票是否已加入排序
+        boolean[] status = new boolean[tickets.size()];
+        List<String> res = new ArrayList<>();
+        if (tickets.size() == 0)
+            return res;
+        String begin = "JFK";
+        res.add(begin);
+        while (true) {
+            String cur = "";
+            int last = 0;
+            for (int i = 0; i < tickets.size(); i++) {
+                if (!status[i]) {
+                    List<String> single = tickets.get(i);
+                    if (single.get(0).equals(begin)) {
+                        if (cur == "") {
+                            cur = single.get(1);
+                            status[i] = true;
+                            last = i;
+                        } else {
+                            if (cur.compareToIgnoreCase(single.get(1)) > 0) {
+                                cur = single.get(1);
+                                status[last] = false;
+                                status[i] = true;
+                            }
+                        }
+                    }
+                }
+            }
+            if (cur != "") {
+                res.add(cur);
+                begin = cur;
+            } else
+                break;
         }
-        return null;
+        return res;
+    }
+
+    /**
+     * 输入: [["MUC", "LHR"], ["JFK", "MUC"], ["SFO", "SJC"], ["LHR", "SFO"]]
+     * 输出: ["JFK", "MUC", "LHR", "SFO", "SJC"]
+     */
+    @Test
+    public void test1() {
+        List<String> flight1 = new ArrayList<>(Arrays.asList("MUC", "LHR"));
+        List<String> flight2 = new ArrayList<>(Arrays.asList("JFK", "MUC"));
+        List<String> flight3 = new ArrayList<>(Arrays.asList("SFO", "SJC"));
+        List<String> flight4 = new ArrayList<>(Arrays.asList("LHR", "SFO"));
+        List<List<String>> fly = new ArrayList<>(Arrays.asList(flight1, flight2, flight3, flight4));
+        List<String> res = findItinerary(fly);
+        for (String s : res) {
+            System.out.print(" " + s);
+        }
+    }
+
+    /**
+     * 输入: [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
+     * 输出: ["JFK","ATL","JFK","SFO","ATL","SFO"]
+     */
+    @Test
+    public void test2() {
+        List<String> flight1 = new ArrayList<>(Arrays.asList("JFK", "SFO"));
+        List<String> flight2 = new ArrayList<>(Arrays.asList("JFK", "ATL"));
+        List<String> flight3 = new ArrayList<>(Arrays.asList("SFO", "ATL"));
+        List<String> flight4 = new ArrayList<>(Arrays.asList("ATL", "JFK"));
+        List<String> flight5 = new ArrayList<>(Arrays.asList("ATL", "SFO"));
+        List<List<String>> fly = new ArrayList<>(Arrays.asList(flight1, flight2, flight3, flight4, flight5));
+        List<String> res = findItinerary(fly);
+        for (String s : res) {
+            System.out.print(" " + s);
+        }
+    }
+
+    /**
+     * 输入: [["JFK","SFO"]]
+     * 输出: ["JFK","SFO"]
+     */
+    @Test
+    public void test3() {
+        List<String> flight1 = new ArrayList<>(Arrays.asList("JFK", "SFO"));
+        List<List<String>> fly = new ArrayList<>(Arrays.asList(flight1));
+        List<String> res = findItinerary(fly);
+        for (String s : res) {
+            System.out.print(" " + s);
+        }
+    }
+
+
+    /**
+     * 输入: []
+     * 输出: []
+     */
+    @Test
+    public void test4() {
+        List<String> flight1 = new ArrayList<>(Arrays.asList("JFK", "SFO"));
+        List<List<String>> fly = new ArrayList<>();
+        List<String> res = findItinerary(fly);
+        for (String s : res) {
+            System.out.print(" " + s);
+        }
+    }
+
+    /**
+     * 输入: [["JFK","SFO"],["SFO", "JFK"],["JFK", "SFO"],["SFO", "JFK"]]
+     * 输出: ["JFK","SFO","JFK","SFO","JFK"]
+     */
+    @Test
+    public void test5() {
+        List<String> flight1 = new ArrayList<>(Arrays.asList("JFK", "SFO"));
+        List<String> flight2 = new ArrayList<>(Arrays.asList("SFO", "JFK"));
+        List<String> flight3 = new ArrayList<>(Arrays.asList("JFK", "SFO"));
+        List<String> flight4 = new ArrayList<>(Arrays.asList("SFO", "JFK"));
+        List<List<String>> fly = new ArrayList<>(Arrays.asList(flight1, flight2, flight3, flight4));
+        List<String> res = findItinerary(fly);
+        for (String s : res) {
+            System.out.print(" " + s);
+        }
+    }
+
+
+    /**
+     * 输入: [["MUC","LHR"],["JFK","MUC"],["SFO","SJC"],["LHR","SFO"]]
+     * 输出: ["JFK","MUC","LHR","SFO","SJC"]
+     */
+    @Test
+    public void test6() {
+        List<String> flight1 = new ArrayList<>(Arrays.asList("MUC", "LHR"));
+        List<String> flight2 = new ArrayList<>(Arrays.asList("JFK", "MUC"));
+        List<String> flight3 = new ArrayList<>(Arrays.asList("SFO", "SJC"));
+        List<String> flight4 = new ArrayList<>(Arrays.asList("LHR", "SFO"));
+        List<List<String>> fly = new ArrayList<>(Arrays.asList(flight1, flight2, flight3, flight4));
+        List<String> res = findItinerary(fly);
+        for (String s : res) {
+            System.out.print(" " + s);
+        }
+    }
+
+    /**
+     * 输入: [["JFK","KUL"],["JFK","NRT"],["NRT","JFK"]]
+     * 输出: ["JFK","NRT","JFK","KUL"]
+     */
+    @Test
+    public void test7() {
+        List<String> flight1 = new ArrayList<>(Arrays.asList("JFK", "KUL"));
+        List<String> flight2 = new ArrayList<>(Arrays.asList("JFK", "NRT"));
+        List<String> flight3 = new ArrayList<>(Arrays.asList("NRT", "JFK"));
+        List<List<String>> fly = new ArrayList<>(Arrays.asList(flight1, flight2, flight3));
+        List<String> res = findItinerary(fly);
+        for (String s : res) {
+            System.out.print(" " + s);
+        }
+    }
+
+    @Test
+    public void testa() {
+        String a = "BC";
+        String b = "bc";
+        System.out.println(a.compareToIgnoreCase(b));
     }
 }
