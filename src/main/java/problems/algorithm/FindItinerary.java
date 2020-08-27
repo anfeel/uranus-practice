@@ -2,10 +2,7 @@ package problems.algorithm;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * 给定一个机票的字符串二维数组 [from, to]，子数组中的两个成员分别表示飞机出发和降落的机场地点，对该行程进行重新规划排序。所有这些机票都属于一个从 JFK（肯尼迪国际机场）出发的先生，所以该行程必须从 JFK 开始。
@@ -34,13 +31,55 @@ import java.util.Stack;
  */
 public class FindItinerary {
 
+    /**
+     * 第三种思路：遇到死结点才插入，否则深度搜索
+     * @param tickets
+     * @return
+     */
+    public List<String> findItinerary(List<List<String>> tickets) {
+        List<String> res = new LinkedList<>();
+        Map<String, List<String>> map = new HashMap<>();
+        for (List<String> flight : tickets) {
+            String source = flight.get(0);
+            String target = flight.get(1);
+            if (!map.containsKey(source)) {
+                List<String> list = new LinkedList<>();
+                list.add(target);
+                map.put(source, list);
+            } else {
+                List<String> list = map.get(source);
+                list.add(target);
+            }
+        }
+        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+            List<String> list = entry.getValue();
+            list.sort(new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    return o1.compareToIgnoreCase(o2);
+                }
+            });
+        }
+        getPath(map, "JFK", res);
+        return res;
+    }
+
+    public void getPath(Map<String, List<String>> map, String source, List<String> res) {
+        List<String> dest = map.get(source);
+        while (dest != null && dest.size() > 0) {
+            String target = dest.remove(0);
+            getPath(map, target, res);
+        }
+        res.add(0, source);
+    }
+
 
     /**
      * 第二种思路：深度搜索出所有符合条件的路线，依次比较字母顺序
      * @param tickets
      * @return
      */
-    public List<String> findItinerary(List<List<String>> tickets) {
+    public List<String> findItinerary4(List<List<String>> tickets) {
         List<String> res = new ArrayList<>();
         if (tickets.size() == 0)
             return res;
