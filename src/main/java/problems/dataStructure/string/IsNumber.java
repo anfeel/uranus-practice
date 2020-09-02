@@ -17,19 +17,6 @@ import org.junit.Test;
  */
 public class IsNumber {
 
-    /**
-     * A
-     * A.B
-     * A.B e A
-     * A 是否为 带符号整数
-     * B 是否为 无符号整数
-     * @param s
-     * @return
-     */
-    public boolean isNumber2(String s) {
-        String[] arr = s.split("E");
-        return false;
-    }
 
     /**
      * A
@@ -53,24 +40,18 @@ public class IsNumber {
         for (int i = 0; i < len; i++) {
             char c = s.charAt(i);
             if (Character.isDigit(c))
-                continue;
-            if (c == '+' || c == '-') {
-                if (i == len - 1 || len == 1 || !Character.isDigit(s.charAt(i + 1)) || (i > 0 && !(s.charAt(i - 1) == 'E' || s.charAt(i - 1) == 'e')))
-                    return false;
-            } else if (c == 'E' || c == 'e') {
-                if (e || i == 0 || i == len - 1 || !Character.isDigit(s.charAt(i - 1)) || !(Character.isDigit(s.charAt(i + 1)) || s.charAt(i + 1) == '-' || s.charAt(i + 1) == '+'))
-                    return false;
-                else
-                    e = true;
-            } else if (c == '.') {
-                if (dot || e || (i > 0 && !Character.isDigit(s.charAt(i - 1))) || (i < len - 1 && !Character.isDigit(s.charAt(i + 1))) || (len == 1))
-                    return false;
-                else
-                    dot = true;
+                num = true;
+            else if ((c == '+' || c == '-') && (i == 0 || s.charAt(i - 1) == 'e' || s.charAt(i - 1) == 'E')) {
+
+            } else if ((c == 'E' || c == 'e') && !e && num) {
+                e = true;
+                num = false;
+            } else if (c == '.' && !dot && !e) {
+                dot = true;
             } else
                 return false;
         }
-        return true;
+        return num;
     }
 
     @Test
