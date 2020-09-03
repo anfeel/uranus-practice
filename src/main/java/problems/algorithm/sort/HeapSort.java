@@ -56,5 +56,15 @@ public class HeapSort {
         }
     }
 
+    @Test
+    public void test2() {
+        int[] tree = {3, 2, 1};
+        int len = tree.length;
+        heapSort(tree, len);
+        for (int i = 0; i < len; i++) {
+            System.out.printf("%d ", tree[i]);
+        }
+    }
+
 
 }
