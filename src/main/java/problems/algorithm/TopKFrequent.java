@@ -48,24 +48,23 @@ public class TopKFrequent {
                 mapNum2Count.put(nums[i], 1);
             }
         }
-        Map<Integer, Integer> mapCount2Num = new HashMap<>();
-        int[] arr = new int[mapNum2Count.size()];
+        Data[] data = new Data[mapNum2Count.size()];
         int c = 0;
         for (Map.Entry<Integer, Integer> entry : mapNum2Count.entrySet()) {
             int num = entry.getKey();
             int count = entry.getValue();
-            mapCount2Num.put(count, num);
-            arr[c++] = count;
+            Data d = new Data(num, count);
+            data[c++] = d;
         }
-        heapSort(arr, arr.length);
+        heapSort(data, data.length);
         int[] res = new int[k];
         for (int i = 0; i < k; i++) {
-            res[i] = mapCount2Num.get(arr[arr.length - 1 - i]);
+            res[i] = data[data.length - 1 - i].getNum();
         }
         return res;
     }
 
-    public void heapSort(int[] tree, int len) {
+    public void heapSort(Data[] tree, int len) {
         buildHeap(tree, len);
         for (int i = len - 1; i >= 1; i--) {
             swap(tree, 0, i);
@@ -73,7 +72,7 @@ public class TopKFrequent {
         }
     }
 
-    public void buildHeap(int[] tree, int len) {
+    public void buildHeap(Data[] tree, int len) {
         int last = len - 1;
         int parent = (last - 1) / 2;
         for (int i = parent; i >= 0; i--) {
@@ -81,13 +80,13 @@ public class TopKFrequent {
         }
     }
 
-    public void heapify(int[] tree, int len, int i) {
+    public void heapify(Data[] tree, int len, int i) {
         int c1 = i * 2 + 1;
         int c2 = i * 2 + 2;
         int max = i;
-        if (c1 < len && tree[c1] > tree[max])
+        if (c1 < len && tree[c1].getCount() > tree[max].getCount())
             max = c1;
-        if (c2 < len && tree[c2] > tree[max])
+        if (c2 < len && tree[c2].getCount() > tree[max].getCount())
             max = c2;
         if (max != i) {
             swap(tree, max, i);
@@ -95,8 +94,8 @@ public class TopKFrequent {
         }
     }
 
-    public void swap(int[] tree, int i, int j) {
-        int tmp = tree[i];
+    public void swap(Data[] tree, int i, int j) {
+        Data tmp = tree[i];
         tree[i] = tree[j];
         tree[j] = tmp;
     }
@@ -144,10 +143,53 @@ public class TopKFrequent {
 
     @Test
     public void test6() {
-        int[] res = topKFrequent(new int[]{1}, 1);
+        int[] res = topKFrequent(new int[]{1, 2}, 2);
         for (int i = 0; i < res.length; i++) {
             System.out.printf("%d ", res[i]);
         }
     }
 
+    @Test
+    public void test7() {
+        int[] res = topKFrequent(new int[]{2, 1}, 2);
+        for (int i = 0; i < res.length; i++) {
+            System.out.printf("%d ", res[i]);
+        }
+    }
+
+    @Test
+    public void test8() {
+        int[] res = topKFrequent(new int[]{3, 2, 1}, 3);
+        for (int i = 0; i < res.length; i++) {
+            System.out.printf("%d ", res[i]);
+        }
+    }
+
+
+}
+
+class Data {
+    private int num;
+    private int count;
+
+    public Data(int num, int count) {
+        this.num = num;
+        this.count = count;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 }
