@@ -2,8 +2,10 @@ package problems.algorithm;
 
 import org.junit.Test;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 /**
  * 给定一个非空的整数数组，返回其中出现频率前 k 高的元素。
@@ -37,6 +39,75 @@ import java.util.Map;
 public class TopKFrequent {
 
     public int[] topKFrequent(int[] nums, int k) {
+        if (nums == null || nums.length == 0 || k > nums.length)
+            return new int[]{};
+        Map<Integer, Integer> mapNum2Count = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (mapNum2Count.containsKey(nums[i])) {
+                int count = mapNum2Count.get(nums[i]);
+                mapNum2Count.put(nums[i], count + 1);
+            } else {
+                mapNum2Count.put(nums[i], 1);
+            }
+        }
+        PriorityQueue<Integer> pq = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return mapNum2Count.get(o1) - mapNum2Count.get(o2);
+            }
+        });
+        for (Integer key : mapNum2Count.keySet()) {
+            if (pq.size() < k)
+                pq.add(key);
+            else if (mapNum2Count.get(key) > mapNum2Count.get(pq.peek())) {
+                pq.remove();
+                pq.add(key);
+            }
+        }
+        int[] res = new int[k];
+        for (int i = 0; i < k; i++) {
+            res[i] = pq.remove();
+        }
+        return res;
+    }
+
+    public void heapSort(int[] tree, int len) {
+        buildHeap(tree, len);
+        for (int i = len - 1; i >= 1; i--) {
+            swap(tree, 0, i);
+            buildHeap(tree, i);
+        }
+    }
+
+    public void buildHeap(int[] tree, int len) {
+        int last = len - 1;
+        int parent = (last - 1) / 2;
+        for (int i = parent; i >= 0; i--) {
+            heapify(tree, len, i);
+        }
+    }
+
+    public void heapify(int[] tree, int len, int i) {
+        int c1 = i * 2 + 1;
+        int c2 = i * 2 + 2;
+        int max = i;
+        if (c1 < len && tree[c1] > tree[max])
+            max = c1;
+        if (c2 < len && tree[c2] > tree[max])
+            max = c2;
+        if (max != i) {
+            swap(tree, max, i);
+            heapify(tree, len, max);
+        }
+    }
+
+    public void swap(int[] tree, int i, int j) {
+        int tmp = tree[i];
+        tree[i] = tree[j];
+        tree[j] = tmp;
+    }
+
+    public int[] topKFrequent2(int[] nums, int k) {
         if (nums == null || nums.length == 0 || k > nums.length)
             return new int[]{};
         Map<Integer, Integer> mapNum2Count = new HashMap<>();
