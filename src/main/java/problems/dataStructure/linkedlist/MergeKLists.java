@@ -63,6 +63,38 @@ public class MergeKLists {
         });
         int count = 0;
         ListNode head = new ListNode(0), root = head;
+        for (int i = 0; i < lists.length; i++) {
+            if (lists[i] != null)
+                pq.add(lists[i]);
+        }
+        while (count < lists.length) {
+            ListNode cur = pq.poll();
+            if (cur != null) {
+                ListNode next = cur.next;
+                if (next != null)
+                    pq.add(next);
+                else
+                    count++;
+                head.next = cur;
+                head = head.next;
+            } else
+                count++;
+
+        }
+        return root.next;
+    }
+
+    public ListNode mergeKLists2(ListNode[] lists) {
+        if (lists == null || lists.length == 0)
+            return null;
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(new Comparator<ListNode>() {
+            @Override
+            public int compare(ListNode o1, ListNode o2) {
+                return o1.val - o2.val;
+            }
+        });
+        int count = 0;
+        ListNode head = new ListNode(0), root = head;
         while (count < lists.length) {
             for (int i = 0; i < lists.length; i++) {
                 ListNode cur = lists[i];
