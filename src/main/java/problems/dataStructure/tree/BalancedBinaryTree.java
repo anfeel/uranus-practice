@@ -9,14 +9,14 @@ import org.junit.Test;
  * @version $Id: BalancedBinaryTree.java, v 0.1 2019年9月11日 上午11:08:12 prd-fuy Exp $
  */
 public class BalancedBinaryTree {
-    
+
     public boolean isBalancedTree(TreeNode head) {
         boolean[] res = new boolean[1];
         res[0] = true;
         getDepth(head, 1, res);
         return res[0];
     }
-    
+
     public int getDepth(TreeNode head, int level, boolean[] res) {
         if (head == null)
             return level;
@@ -30,7 +30,7 @@ public class BalancedBinaryTree {
             res[0] = false;
         return Math.max(leftDepth, rightDepth);
     }
-    
+
     @Test
     public void test1() {
         TreeNode t1 = new TreeNode(1);
@@ -49,5 +49,5 @@ public class BalancedBinaryTree {
         t3.right = t7;
         System.out.println("This TreeNode is balancedTree? " + isBalancedTree(t1));
     }
-    
+
 }
