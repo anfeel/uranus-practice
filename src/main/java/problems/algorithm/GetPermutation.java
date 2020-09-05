@@ -39,47 +39,76 @@ import org.junit.Test;
  * @version $ Id:GetPermutation, v 0.1 2020年09月05日 10:07 anfeel Exp $
  */
 public class GetPermutation {
+
     public String getPermutation(int n, int k) {
-        boolean[] status = new boolean[n];
-        int f = 0;
-        int num = 0;
-        int nk = k;
-        String res = "";
-        for (int i = 0; i < n; i++) {
-            f = factorial(n - 1);
-            num = nk / f;
-            int t = i + num;
-            status[t] = true;
-        }
-        return null;
+        if (n < 1 || k < 1)
+            return "";
+        String res = permute(n, n - 1, k, 0, new boolean[n]);
+        return res;
     }
 
-    public String getPermutation2(int n, int k) {
-        n = 4;
-        k = 9;
-        int f1 = factorial(4 - 1);//f1 = 6
-        int num1 = k / f1;//num1 = 1
-        int nextK = k % f1;//nextK = 3
 
-        int f2 = factorial(3 - 1);//f2 = 2
-        int num2 = nextK / f2;//num2= 1;
-        int nextK2 = nextK % f2;//nextK2 = 1
-
-        int f3 = factorial(2 - 1);//f3 = 1
-        int nextK3 = nextK2 % f3;//nextK3 =0
-
-        return null;
+    public String permute(int n, int cur, int nk, int nums, boolean[] status) {
+        if (nk > 0 && cur > 0) {
+            //当前剩余数字做阶乘的序列个数
+            int f = factorial(cur);
+            //当前应使用的第几个，应跳过已使用的
+            nums = (nk - 1) / f;
+            //剩余的序列个数
+            nk = nk % f;
+        }
+        for (int i = 0, j = 0; i < n; i++, j++) {
+            if (status[i]) {
+                j--;
+                continue;
+            }
+            if (j == nums) {
+                status[i] = true;
+                return (i + 1) + permute(n, cur - 1, nk, nums, status);
+            }
+        }
+        return "";
     }
 
 
     public int factorial(int n) {
-        if (n != 1)
+        if (n > 1)
             return n * factorial(n - 1);
         return 1;
     }
 
     @Test
     public void test1() {
-        System.out.println(factorial(3));
+        System.out.println(getPermutation(3, 3));
+    }
+
+    @Test
+    public void test2() {
+        System.out.println(getPermutation(4, 9));
+    }
+
+    @Test
+    public void test3() {
+        System.out.println(getPermutation(1, 1));
+    }
+
+    @Test
+    public void test4() {
+        System.out.println(getPermutation(1, 2));
+    }
+
+    @Test
+    public void test5() {
+        System.out.println(getPermutation(1, 0));
+    }
+
+    @Test
+    public void test6() {
+        System.out.println(getPermutation(0, 2));
+    }
+
+    @Test
+    public void test7() {
+        System.out.println(getPermutation(2, 2));
     }
 }
