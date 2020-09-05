@@ -43,29 +43,25 @@ public class GetPermutation {
     public String getPermutation(int n, int k) {
         if (n < 1 || k < 1)
             return "";
-        String res = permute(n, n - 1, k, 0, new boolean[n]);
+        String res = permute(n, n - 1, k, new boolean[n + 1]);
         return res;
     }
 
 
-    public String permute(int n, int cur, int nk, int nums, boolean[] status) {
-        if (nk > 0 && cur > 0) {
-            //当前剩余数字做阶乘的序列个数
-            int f = factorial(cur);
-            //当前应使用的第几个，应跳过已使用的
-            nums = (nk - 1) / f;
-            //剩余的序列个数
-            nk = nk % f;
-        }
-        for (int i = 0, j = 0; i < n; i++, j++) {
-            if (status[i]) {
-                j--;
+    public String permute(int n, int cur, int nk, boolean[] status) {
+        //当前剩余数字做阶乘的序列个数
+        int f = factorial(cur);
+        for (int j = 1; j <= n; j++) {
+            if (status[j]) {
                 continue;
             }
-            if (j == nums) {
-                status[i] = true;
-                return (i + 1) + permute(n, cur - 1, nk, nums, status);
+            if (nk > f) {
+                //剩余的序列个数
+                nk = nk - f;
+                continue;
             }
+            status[j] = true;
+            return j + permute(n, cur - 1, nk, status);
         }
         return "";
     }
@@ -74,7 +70,8 @@ public class GetPermutation {
     public int factorial(int n) {
         if (n > 1)
             return n * factorial(n - 1);
-        return 1;
+        else
+            return 1;
     }
 
     @Test
