@@ -1,32 +1,30 @@
 package problems.dataStructure.tree;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
-
 import org.junit.Test;
+
+import java.util.*;
 
 /**
  * 给定一个非空二叉树, 返回一个由每层节点平均值组成的数组.
 
-    示例 1:
-    
-    输入:
-        3
-       / \
-      9  20
-        /  \
-       15   7
-    输出: [3, 14.5, 11]
-    解释:
-    第0层的平均值是 3,  第1层是 14.5, 第2层是 11. 因此返回 [3, 14.5, 11].
-    注意：
-    
-    节点值的范围在32位有符号整数范围内。
-    
-    来源：力扣（LeetCode）
-    链接：https://leetcode-cn.com/problems/average-of-levels-in-binary-tree
-    著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ 示例 1:
+
+ 输入:
+ 3
+ / \
+ 9  20
+ /  \
+ 15   7
+ 输出: [3, 14.5, 11]
+ 解释:
+ 第0层的平均值是 3,  第1层是 14.5, 第2层是 11. 因此返回 [3, 14.5, 11].
+ 注意：
+
+ 节点值的范围在32位有符号整数范围内。
+
+ 来源：力扣（LeetCode）
+ 链接：https://leetcode-cn.com/problems/average-of-levels-in-binary-tree
+ 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  * @author anfeel
  * @version $Id: AverageOfLevels.java, v 0.1 2019年11月3日 上午10:23:36 anfeel Exp $
  */
@@ -36,6 +34,36 @@ public class AverageOfLevels {
     Stack<TreeNode> s2 = new Stack<>();
 
     public List<Double> averageOfLevels(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        List<Double> res = new ArrayList<>();
+        if (root == null)
+            return res;
+        queue.add(root);
+        getAverage(queue, res);
+        return res;
+
+    }
+
+    public void getAverage(Queue<TreeNode> queue, List<Double> list) {
+        if (queue.isEmpty())
+            return;
+        Queue<TreeNode> next = new LinkedList<>();
+        double d = 0;
+        int count = 0;
+        while (!queue.isEmpty()) {
+            TreeNode cur = queue.poll();
+            d += cur.val;
+            count++;
+            if (cur.left != null)
+                next.add(cur.left);
+            if (cur.right != null)
+                next.add(cur.right);
+        }
+        list.add(d / count);
+        getAverage(next, list);
+    }
+
+    public List<Double> averageOfLevels2(TreeNode root) {
         List<Double> list = new ArrayList<Double>();
         if (root != null)
             s1.add(root);
