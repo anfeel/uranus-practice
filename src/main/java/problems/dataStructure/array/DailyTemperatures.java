@@ -24,19 +24,19 @@ public class DailyTemperatures {
         if (T == null | T.length == 0)
             return new int[]{};
         int[] result = new int[T.length];
-        Deque<int[][]> deque = new LinkedList<>();
-        deque.offerLast(new int[][]{{T[T.length - 1], T.length - 1}});
+        Deque<Integer> deque = new LinkedList<>();
+        deque.offerLast(T.length - 1);
         for (int i = T.length - 1; i >= 0; i--) {
-            if (T[i] >= deque.peekFirst()[0][0]) {
+            if (T[i] >= T[deque.peekFirst()]) {
                 deque = new LinkedList<>();
-                deque.offerFirst(new int[][]{{T[i], i}});
-                result[i] = deque.peekLast()[0][1] - i;
+                deque.offerFirst(i);
+                result[i] = deque.peekLast() - i;
             } else {
-                while (T[i] >= deque.peekLast()[0][0]) {
+                while (T[i] >= T[deque.peekLast()]) {
                     deque.pollLast();
                 }
-                result[i] = deque.peekLast()[0][1] - i;
-                deque.offerLast(new int[][]{{T[i], i}});
+                result[i] = deque.peekLast() - i;
+                deque.offerLast(i);
             }
         }
         return result;
