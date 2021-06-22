@@ -20,7 +20,7 @@ public class ReadWriteLockTest {
         rwl.readLock().lock();
         try {
             for (int i = 0; i < 10; i++) {
-                System.out.println("thread : " + thread.getName() + " , reading ");
+                System.out.println("thread : " + thread.getName() + " , reading " + i);
             }
             System.out.println("thread : " + thread.getName() + " , reading finish");
         } finally {
@@ -32,7 +32,7 @@ public class ReadWriteLockTest {
         rwl.writeLock().lock();
         try {
             for (int i = 0; i < 10; i++) {
-                System.out.println("thread : " + thread.getName() + " , writing ");
+                System.out.println("thread : " + thread.getName() + " , writing " + i);
             }
             System.out.println("thread : " + thread.getName() + " , writing finish");
         } finally {
@@ -45,15 +45,17 @@ public class ReadWriteLockTest {
         ReadWriteLockTest test = new ReadWriteLockTest();
         ExecutorService pool = new ThreadPoolExecutor(4, 4, 0L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
         for (int i = 0; i < 4; i++) {
+            int finalI = i;
             pool.execute(() -> {
-                test.read(Thread.currentThread());
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if (finalI % 2 == 0) {
+                    test.read(Thread.currentThread());
+                    test.write(Thread.currentThread());
+                } else {
+                    test.write(Thread.currentThread());
+                    test.read(Thread.currentThread());
                 }
-                test.write(Thread.currentThread());
             });
         }
+        pool.shutdown();
     }
 }
