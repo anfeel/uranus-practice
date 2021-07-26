@@ -9,9 +9,9 @@ import java.util.List;
  */
 public abstract class ParkingBoy {
 
-    private String name;
+    protected String name;
 
-    private List<ParkingLot> list;
+    protected List<ParkingLot> list;
 
     protected int ptr;
 
