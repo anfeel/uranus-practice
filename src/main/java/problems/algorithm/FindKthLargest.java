@@ -37,7 +37,7 @@ import java.util.Stack;
  */
 public class FindKthLargest {
 
-    public int findKthLargest(int nums[], int k) {
+    public int findKthLargest1(int nums[], int k) {
         if (nums == null || nums.length == 0 || k < 0 || k > nums.length)
             return 0;
         Deque<Integer> deque = new LinkedList<>();
@@ -67,6 +67,37 @@ public class FindKthLargest {
             res = deque.pollFirst();
         }
         return res;
+    }
+
+    public int findKthLargest(int nums[], int k) {
+        if (nums == null || nums.length == 0 || k < 0 || k > nums.length)
+            return 0;
+        int arr[] = quickSort(nums, 0, nums.length - 1);
+        return arr[nums.length - k];
+    }
+
+    public int[] quickSort(int[] arr, int start, int end) {
+        int pivot = arr[start];
+        int i = start;
+        int j = end;
+        while (i < j) {
+            while (i < j && arr[j] > pivot)
+                j--;
+            while (i < j && arr[i] < pivot)
+                i++;
+            if (arr[i] == arr[j] && i < j)
+                i++;
+            else {
+                int temp = arr[j];
+                arr[j] = arr[i];
+                arr[i] = temp;
+            }
+        }
+        if (i - 1 > start)
+            quickSort(arr, start, i - 1);
+        if (j + 1 < end)
+            quickSort(arr, j + 1, end);
+        return arr;
     }
 
     @Test
