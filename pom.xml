@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <spring.version>4.3.18.RELEASE</spring.version>
+        <spring.version>5.3.18</spring.version>
         <spring-session.version>2.0.0.M2</spring-session.version>
         <spring-data-redis.version>1.8.9.RELEASE</spring-data-redis.version>
 
